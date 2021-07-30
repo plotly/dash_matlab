@@ -1,10 +1,12 @@
+terminate(pyenv);
+
 % read data file
 
 tab = readtable('dat.csv');
 
 % create Dash app
 
-app = createApp()
+app = createApp();
 
 % create slider
 
@@ -20,14 +22,14 @@ rows = (tab.year == YEAR);
 subtab = tab(rows,:);
 scatter(subtab.gdpPercap, ...
     subtab.lifeExp, ...
-    subtab.pop/100000, ...
+    subtab.pop/1000000, ...
     categorical(subtab.country), 'filled');
  set(gca,'xscale','log');
- fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true));
-
+ fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true, 'open', false));
+ 
 % add slider and graph to Dash app layout
 
-app = addLayout(app, fig, dash_sld)
+app.layout = addLayout(fig, dash_sld)
 
 % run the app
 

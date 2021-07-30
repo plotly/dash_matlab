@@ -1,2 +1,2 @@
 # dash_matlab
-MATLAB wrapper for the Dash Python library
+MATLAB wrapper and DSL for the Dash Python library

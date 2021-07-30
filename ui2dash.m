@@ -1,0 +1,13 @@
+function component = ui2dash(ui_widget, id)
+
+    terminate(pyenv)
+
+    switch ui_widget.Type
+        case 'uislider'
+            sld = ui_widget
+            component = py.dash_core_components.Slider(pyargs('id',id, ...
+                'min', min(sld.MajorTicks),  ...
+                'max', max(sld.MajorTicks),  ...
+                'value', min(sld.Value),  ...
+                'step', round(max(sld.MajorTicks)/length(sld.MajorTicks))))
+end

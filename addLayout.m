@@ -1,7 +1,9 @@
-function app = addLayout(app, varargin)
+function layout = addLayout(varargin)
 
-    disp(varargin);
+    % disp(varargin);
+    % create an empty DIV to put all of the components inside
     
-    app.layout = py.dash_html_components.Div(pyargs(varargin)); % doesn't work
+    layout = py.dash_html_components.Div({});
     
+    layout.children = varargin;
 end

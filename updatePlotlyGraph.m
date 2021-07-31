@@ -13,5 +13,5 @@ function plotlyFig = updatePlotlyGraph(year)
         categorical(subtab.country), 'filled');
     set(gca,'xscale','log')
     
-    plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false))
+    plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false,'Visible',false))
 end

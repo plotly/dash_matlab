@@ -26,7 +26,7 @@ scatter(subtab.gdpPercap, ...
     subtab.pop/10000, ...
     categorical(subtab.country), 'filled');
  set(gca,'xscale','log');
- fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true, 'open', false), 'graph');
+ fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true, 'open', false,'Visible',false), 'graph');
  
 % add slider and graph to Dash app layout
 

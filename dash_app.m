@@ -23,7 +23,7 @@ rows = (tab.year == YEAR);
 subtab = tab(rows,:);
 scatter(subtab.gdpPercap, ...
     subtab.lifeExp, ...
-    subtab.pop/1000000, ...
+    subtab.pop/10000, ...
     categorical(subtab.country), 'filled');
  set(gca,'xscale','log');
  fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true, 'open', false), 'graph');
@@ -34,16 +34,9 @@ app.layout = addLayout(fig, dash_sld);
 
 % define the callbacks
 
-slider_callback = app.callback( {argsOut('graph', 'figure'), argsIn('year','value') });
+slider_callback = app.callback( {argsOut('graph', 'figure'), argsIn('year','value') });  
 
-% Python callback file
-% Need to turn this Python function into a generic pass through function
-% that calls user-defined MATLAB function through Python matlab.engine
-% utility. Alternatively, if this does not work, could rewrite callback 
-% function entirely in MATLAB: 
-% https://github.com/plotly/dash/blob/dev/dash/dash.py#L990
-
-slider_callback(@py.update_figure.update_figure);  
+slider_callback(@py.updatePlotlyGraphPy.updatePlotlyGraphPy);
 
 % run the app
 

@@ -1,29 +1,40 @@
 # dash_matlab
 MATLAB components for the Dash Python library
 Dash for MATLAB provides interface to use Dash library and create analytic web applications fully in MATLAB.
-# Examples
+## [Examples](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples)
 contains examples of usage:
-- Interactive statistical scatter plot with slider (slider_scatter)  
+- Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples/slider_scatter))  
 ...
 ...
-# Aux
-Contains backend helper functions
+## [Aux](https://github.com/plotly/dash_matlab/tree/3-file-organize/Aux)
+Contains backend helper functions:  
+- addLayout.m - builds the layout for the Dash app.  
+- argsIn.m - Wrapper for Dash callback input arguments.  
+- argsOut.m - Wrapper for Dash callback output arguments.  
+- createApp.m - Creates the Dash web server object.  
+- ui2dash.m - Converts MATLAB UI components to Dash components.  
+- plotlyfig2dash.m - Converts Plotly MATLAB figures to Dash Graph components.  
 ____
+## Getting Started
+Please be sure to use compatible [Python version](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-compatibility.pdf).  
+if your Python version is different, consider downgrading it or using [pyenv]( https://github.com/pyenv/pyenv  ).
 ____
-# Getting Started
-Please be sure to use compatible Python version:  
-https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-compatibility.pdf  
-if your Python version is different, consider downgrading it or using pyenv: https://github.com/pyenv/pyenv  
+Install [Dash](https://github.com/plotly/dash) plotting library.  
+`pip install dash`  
 ____
-Install Dash plotting library: https://github.com/plotly/dash  
-> pip install dash  
+Install [Plotly Graphing Library for MATLAB](https://plotly.com/matlab/getting-started/).
+Download its sources and install in MATLAB with:  
+```
+cd ~/Downloads/plotly-graphing-library-for-matlab-master  
+plotlysetup_offline()
+```  
+don't use setup with URL 
 ____
-Install Plotly Graphing Library for MATLAB: https://plotly.com/matlab/getting-started/
-Download its sources and install in MATLAB with (don't use setup with URL):  
-> cd ~/Downloads/plotly-graphing-library-for-matlab-master  
-> plotlysetup_offline()  
-____
-Add dash_matlab folder to MATLAB path
+Add dash_matlab folder to MATLAB path  
+`addpath('~/dash_matlab/Aux')`  
+or with [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
+
 ____
 Create insightful graphs in web!
+
 

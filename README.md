@@ -29,7 +29,7 @@ plotlysetup_offline()
 ```  
 don't use setup with URL 
 ____
-Add dash_matlab folder to MATLAB path  
+Add `dash_matlab` folder to MATLAB [path](https://www.mathworks.com/help/matlab/ref/addpath.html)  
 `addpath('~/dash_matlab/Aux')`  
 or with [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
 

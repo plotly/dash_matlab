@@ -1,6 +1,5 @@
-function plotlyFig = updatePlotlyGraph(year)
+function plotlyFig = callback(year)
 
-    set(0,'DefaultFigureVisible','off')
     tab = readtable('dat.csv');
     
     if year == 0
@@ -18,6 +17,6 @@ function plotlyFig = updatePlotlyGraph(year)
     set(gca,'xscale','log')
     title(gca, sprintf('TITLE FOR YEAR %s', num2str(YEAR)));
     
-    plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false,'Visible',false))
-    
+    plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false))
+    close(fig)
 end

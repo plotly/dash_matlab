@@ -1,5 +1,4 @@
-# dash_matlab
-MATLAB components for the Dash Python library
+# MATLAB components for Dash    
 Dash for MATLAB provides interface to use Dash library and create analytic web applications fully in MATLAB.
 ## [Examples](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples)
 contains examples of usage:

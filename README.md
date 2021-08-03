@@ -3,7 +3,7 @@ Dash for MATLAB provides interface to use Dash library and create analytic web a
 ## [Examples](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples)
 contains examples of usage:
 - Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples/slider_scatter))  
-...
+- Multi input callback example, [multi_input](https://github.com/plotly/dash_matlab/tree/5-multiargs-examp/Examples/multi_input)  
 ...
 ## [Aux](https://github.com/plotly/dash_matlab/tree/3-file-organize/Aux)
 Contains backend helper functions:  

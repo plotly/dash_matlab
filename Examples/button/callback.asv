@@ -1,0 +1,15 @@
+function msgDiv = callback(btn1, btn2, btn3)
+    things = length(py.dash.callback_context.triggered);
+    changed_id = {things};
+    for i = 1:things
+        changed_id{i} = py.list(
+    msg = 'Button 1 was most recently clicked';
+    msgDiv = jsonencode(py.dash_html_components.Div(msg));
+    %{
+            lnbut = length(butgroup.Buttons);
+            opts = {lnbut};
+            for i=1:lnbut
+                 opts{i} = py.dict(pyargs('label', butgroup.Buttons(i).Text, 'value', butgroup.Buttons(i).Text));
+            end
+    %}
+end

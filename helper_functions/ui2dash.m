@@ -42,5 +42,11 @@ function component = ui2dash(ui_widget, id)
 
             component = py.dash_core_components.Dropdown(pyargs('id', id, ...
             'options', opts, 'value', drpdown.Value ));
+            
+        % Button Properties
+        case 'uibutton'
+            btn = ui_widget;
+            component = py.dash_html_components.Button(btn.Text, pyargs(...
+                'id',id, 'n_clicks', 0 ));
     end
 end

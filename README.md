@@ -19,10 +19,13 @@ ____
 Please be sure to use compatible [Python version](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-compatibility.pdf).  
 if your Python version is different, consider downgrading it or using [pyenv]( https://github.com/pyenv/pyenv  ).
 ____
-Install [Dash](https://github.com/plotly/dash) plotting library.  
+Install [Dash](https://github.com/plotly/dash) plotting library:  
 `pip install dash`  
 ____
-Install [Plotly Graphing Library for MATLAB](https://plotly.com/matlab/getting-started/).
+Install [dash-bootstrap-components](https://github.com/facultyai/dash-bootstrap-components):  
+`pip install dash-bootstrap-components`
+____
+Install [Plotly Graphing Library for MATLAB](https://plotly.com/matlab/getting-started/):
 Download its sources and install in MATLAB with:  
 ```
 cd ~/Downloads/plotly-graphing-library-for-matlab-master  
@@ -30,7 +33,7 @@ plotlysetup_offline()
 ```  
 don't use setup with URL 
 ____
-Add `dash_matlab` folder to MATLAB [path](https://www.mathworks.com/help/matlab/ref/addpath.html)  
+Add `dash_matlab` folder to MATLAB [path](https://www.mathworks.com/help/matlab/ref/addpath.html):  
 `addpath('~/dash_matlab/Aux')`  
 or with [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
 

@@ -1,11 +1,12 @@
 # MATLAB components for Dash    
 Dash for MATLAB provides interface to use Dash library and create analytic web applications fully in MATLAB.
-## [Examples](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples)
+## [Examples](https://github.com/plotly/dash_matlab/tree/main/Examples)
 contains examples of usage:
-- Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/3-file-organize/Examples/slider_scatter))  
-- Multi input callback example, ([multi_input](https://github.com/plotly/dash_matlab/tree/5-multiargs-examp/Examples/multi_input))  
+- Determining which Button Changed with `callback_context`, ([button](https://github.com/plotly/dash_matlab/tree/main/Examples/button))
+- Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/main/Examples/slider_scatter))  
+- Multi input callback example, ([multi_input](https://github.com/plotly/dash_matlab/tree/main/Examples/multi_input))  
 ...
-## [Aux](https://github.com/plotly/dash_matlab/tree/3-file-organize/Aux)
+## [helper_functions](https://github.com/plotly/dash_matlab/tree/main/helper_functions)
 Contains backend helper functions:  
 - addLayout.m - builds the layout for the Dash app.  
 - argsIn.m - Wrapper for Dash callback input arguments.  

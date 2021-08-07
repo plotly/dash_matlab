@@ -42,9 +42,11 @@ please install Matlab and other requirements from this `readme` on remote `EC2` 
 run script with these commands:  
 >`screen -dmS matt /matlab/bin/matlab -r comm`  
 >`/matlab/bin/matlab -batch 'multi_arg(8050)' &`  
+>`/matlab/bin/matlab -batch 'multi_arg(8051)' &` 
 
 - First matlab starts with shared session for callback execution from multiple machines,  
-- Second is app server start with `port` argument.  
+- Second & third are app server start with `port` argument.  
+- Totally we have 3 matlabs for 2 apps at 8050 and 8051 ports.  
 ***
 Please refer to file sources for implementation details,  
 Now web application can be accessed with public machine IP and port 8050!  

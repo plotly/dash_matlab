@@ -37,6 +37,9 @@ Add `dash_matlab` folder to MATLAB [path](https://www.mathworks.com/help/matlab/
 `addpath('~/dash_matlab/Aux')`  
 or with [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
 
+## Deploying on AWS:
+screen -dmS matt /matlab/bin/matlab -r comm
+/matlab/bin/matlab -batch 'multi_arg(8050)' &
 ____
 Create insightful graphs in web!
 

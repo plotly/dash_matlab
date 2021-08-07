@@ -37,6 +37,17 @@ Add `dash_matlab` folder to MATLAB [path](https://www.mathworks.com/help/matlab/
 `addpath('~/dash_matlab/Aux')`  
 or with [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
 
+## Deploying on [AWS](https://aws.amazon.com/console/):
+please install Matlab and other requirements from this `readme` on remote `EC2` machine and change folder to [aws_multi_input](https://github.com/plotly/dash_matlab/tree/main/Examples/aws_multi_input) example,  
+run script with these commands:  
+>`screen -dmS matt /matlab/bin/matlab -r comm`  
+>`/matlab/bin/matlab -batch 'multi_arg(8050)' &`  
+
+- First matlab starts with shared session for callback execution from multiple machines,  
+- Second is app server start with `port` argument.  
+***
+Please refer to file sources for implementation details,  
+Now web application can be accessed with public machine IP and port 8050!  
 ____
 Create insightful graphs in web!
 

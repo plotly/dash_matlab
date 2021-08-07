@@ -60,5 +60,36 @@ function component = ui2dash(ui_widget, id)
                 'max_date_allowed',py.datetime.datetime.strptime(date2, '%m/%d/%Y'),...
                 'initial_visible_month',py.datetime.datetime.strptime(date1, '%m/%d/%Y'),...
                 'date',py.datetime.datetime.strptime(date1, '%m/%d/%Y')));
+                
+        % CheckBox Properties
+        case 'uicheckbox'
+            chkbox = ui_widget;
+            
+            opts = {1};
+            opts{1} = py.dict(pyargs('label', chkbox.Text, 'value', chkbox.Text));
+            
+            if chkbox.Value == false
+                component = py.dash_core_components.Checklist(pyargs('id', id, ...
+                    'options', opts, 'value', {})); 
+            else
+              
+                component = py.dash_core_components.Checklist(pyargs('id', id, ...
+                    'options', opts, 'value', {chkbox.Text}));
+            end
+            
+        % TextArea Properties
+        case 'uitextarea'
+            txt = ui_widget;
+            lenTxt = length(txt.Value);
+            values = '';
+            for i = 1:lenTxt-1
+                values = strcat(values, txt.Value{i}, '\n');
+            end
+            values = strcat(values, txt.Value{lenTxt});
+            values = sprintf(values);
+            component = py.dash_core_components.Textarea(pyargs(...
+                'id', id, ...
+                'value', values, ...
+                'style', py.dict(pyargs('width', '50%', 'height', 150, 'font-size', 14))));
     end
 end

@@ -103,7 +103,7 @@ function component = ui2dash(ui_widget, id)
         % Hyperlink Properties
         case 'uihyperlink'
             hlink = ui_widget;
-            component = py.dash_html_components.Link(pyargs(...
+            component = py.dash_core_components.Link(pyargs(...
                 'id',id, 'href', hlink.URL, 'target', '_blank', 'children', hlink.Text));
         
         % Image Properties

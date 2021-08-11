@@ -16,10 +16,7 @@ title(gca, sprintf(' Line plot for %s stock', num2str(stock)), 'Fontsize', 20);
 xlabel('Date Index')
 ylabel('Closing Value')
 grid('on')
-
-
 plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false));
 close(fig)
-fig = plotlyfig2dash(fig2plotly(gcf, 'offline', true, 'open', false,'Visible',false), 'lineplot');
 
 end

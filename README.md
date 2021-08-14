@@ -1,6 +1,6 @@
 # MATLAB components for Dash    
 
-Dash for MATLAB® provides an interface to use the Dash library and create analytic web applications fully in MATLAB®.
+Dash for MATLAB® provides an interface to use the Dash library and create analytic web applications fully in MATLAB®. Create and share MATLAB® analysis with business stakeholders through Dash, the leading low-code platform for data science web apps!
 
 ## [Examples](https://github.com/plotly/dash_matlab/tree/main/Examples)
 
@@ -54,10 +54,4 @@ run script with these commands:
 - In the 2nd and 3rd commans, the Dash app server start with `port` arguments (ports 8050 and 8051).  
 - In total, we have 3 MATLAB® instances running for 2 Dash apps at ports 8050 and 8051.  
 
-***
-
-Please refer to the file source code for implementation details. 
-
-Now Dash web applications can be accessed from any public machine IP and port 8050!  
-
-Create and share MATLAB® analses with Dash, the leading low-code platform for data science apps!
+Now Dash web applications can be accessed from any public machine IP and port 8050! Please refer to the [file source code] (https://github.com/plotly/dash_matlab/tree/main/Examples/aws_multi_input) for further implementation details.

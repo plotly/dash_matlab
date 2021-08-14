@@ -112,6 +112,15 @@ function component = ui2dash(ui_widget, id)
             component = py.dash_html_components.Img(pyargs(...
                 'id',id, 'src', img.ImageSource));
 
+        % axes Properties
+        case 'axes'
+            axs = ui_widget;
+            f=figure('visible','off');
+            ff=copyobj(axs,f);
+            plotlyfig = fig2plotly(f, 'offline', true, 'open', false,'Visible',false);
+            close(f);
+            plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
+            component = py.dash_core_components.Graph(pyargs('id', id, 'figure', plotlyfig));            
         
         % Table Properties (TODO)
         case 'uitable'

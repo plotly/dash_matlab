@@ -1,5 +1,8 @@
 # Troubleshooting and FAQ
 
+### MATLAB version
+MATLAB 2021 is the recommended version for this library. For earlier versions you may experience undesired crashes in your apps.
+
 ### Installing everything you need
 Any additional Matlab official toolboxes are not required for work. 
 ...

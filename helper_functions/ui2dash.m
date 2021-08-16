@@ -124,11 +124,31 @@ function component = ui2dash(ui_widget, id)
         
         % Table Properties (TODO)
         case 'uitable'
-            sld = ui_widget
+            sld = ui_widget;
             component = py.dash_html_components.Table(pyargs(...
-                'children',sld.Data))
+                'children',sld.Data));
             
-
-            
+        % Tab group
+        case 'uitabgroup'
+            tabgr  = ui_widget;
+            tabln = length(tabgr.Children);
+            tabs = py.list();
+            %tabs
+            for i=1:tabln
+                tb = tabgr.Children(i);
+                %get tab children
+                nestln = length(tb.Children());
+                nest = py.list();
+                %cycle through tab content
+                for j=1:nestln
+                    nest.append(ui2dash(tb.Children(j), num2str(rand())));
+                end
+                %add tab with tab content to group
+                tabs.append(py.dash_core_components.Tab(pyargs( ...
+                    'label', tb.Title, ...
+                    'children', nest)));
+            end
+            %tab group
+            component = py.dash_core_components.Tabs(tabs);            
     end
 end

@@ -49,7 +49,7 @@ bg4.Layout.Column=[7, 8];
 ax=axes(uigr);
 ax.Layout.Row=[4, 11];
 ax.Layout.Column=[1, 12];
-plot(ax,1:10,1:10)
+plot(ax, 1:10, 1:10)
 
 % start dash server
 app=start_dash(uigr, 8057);

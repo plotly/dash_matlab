@@ -7,6 +7,7 @@ function ui_dash = uigrid2dash(chldrn)
     occrow=int16.empty(0,2);
     occol=int16.empty(0,2);
     for i=1:chln
+        
         row=chldrn(i).Layout.Row;
         col=chldrn(i).Layout.Column;
 
@@ -117,7 +118,7 @@ function ui_dash = uigrid2dash(chldrn)
             if ~bordln
                 continue
             elseif bordln==1
-                res{end+1} = py.dash_bootstrap_components.Row(py.dash_bootstrap_components.Col(ui2dash(bordchl, num2str(rand()))));
+                res{end+1} = py.dash_bootstrap_components.Row(py.dash_bootstrap_components.Col(ui2dash(bordchl, bordchl.UserData)));
             else
                 res{end+1} = py.dash_bootstrap_components.Row(uigrid2dash(bordchl));
             end
@@ -130,7 +131,7 @@ function ui_dash = uigrid2dash(chldrn)
              for indch = 1:chln
                 ch=chldrn(indch);
                  if ch.Layout.Column(1) >= fulc(ic) && ch.Layout.Column(end) < fulc(ic+1)
-                    chilcols{end+1}=ui2dash(ch, num2str(rand()));
+                    chilcols{end+1}=ui2dash(ch, ch.UserData);
                  end
              end
             res{end+1} = py.dash_bootstrap_components.Col(chilcols);
@@ -141,7 +142,7 @@ function ui_dash = uigrid2dash(chldrn)
     %if no row&col border  then it is 1 element
     elseif chln == 1
         bordchl = chldrn;
-        ui_dash = ui2dash(bordchl,num2str(rand()));        
+        ui_dash = ui2dash(bordchl, bordchl.UserData);        
     end
     
 end

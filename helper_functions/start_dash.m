@@ -1,5 +1,7 @@
 %start dash server
 function app = start_dash(uigrid, port)
+    %set id to each grid element
+    set_ids(uigrid);
     %convert ui grid to dash
     ui_dash = uigrid2dash(uigrid.Children);
     %init app

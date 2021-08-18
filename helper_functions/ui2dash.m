@@ -126,21 +126,55 @@ function component = ui2dash(ui_widget, id)
             plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
             component = py.dash_core_components.Graph(pyargs('id', id, 'figure', plotlyfig));            
         
-        % Table Properties 
+        % DataTable Properties for html.Table and DataTable
         case 'uitable'
-            table = ui_widget;
-            sz = size(table.Data);
-            rows=py.list();
-            for i=1:sz(1)
-                cols=py.list();
-                for j=1:sz( 2)
-                    cl = py.dash_html_components.Td(pyargs( ...
-                        'id', table.UserData(i, j), 'children', table.Data(i, j)));
-                    cols.append(cl);
-                end                
-                rows.append(py.dash_html_components.Tr(cols));
+            if ~isstruct(ui_widget.UserData)
+                table = ui_widget;
+                sz = size(table.Data);
+                rows=py.list();
+                for i=1:sz(1)
+                    cols=py.list();
+                    for j=1:sz( 2)
+                        cl = py.dash_html_components.Td(pyargs( ...
+                            'id', table.UserData(i, j), 'children', table.Data(i, j)));
+                        cols.append(cl);
+                    end                
+                    rows.append(py.dash_html_components.Tr(cols));                
+                end
+                component = py.dash_html_components.Table(pyargs( 'children', rows));
+            else
+                tb = ui_widget;
+                [lnrows, lncols] = size(tb.Data);
+
+                if isfield(tb.UserData, 'customColumns')
+                    cols = tb.UserData.customColumns;
+                    tb.UserData = rmfield(tb.UserData, 'customColumns');
+                else
+                    cols = {lncols};
+                    for i=1:lncols
+                        cols{i} = py.dict(pyargs('name', string(tb.ColumnName(i)), 'id', string(tb.ColumnName(i))));
+                    end
+                end
+
+                data = {lnrows};
+                for i=1:lnrows
+                    d = py.dict();
+                    for j=1:lncols
+                        update(d, py.dict(pyargs(string(tb.ColumnName(j)), tb.Data{i,j})));
+                    end
+                    data{i} = d;
+                end
+
+                items = {'id', id,...
+                    'columns', py.list(cols),...
+                    'data', py.list(data)};
+                for item = fieldnames(tb.UserData)'
+                    items{end+1} = char(item);
+                    items{end+1} = tb.UserData.(char(item));
+                end
+
+                component = py.dash_table.DataTable(pyargs(items{:}));
             end
-            component = py.dash_html_components.Table(pyargs( 'children', rows));
             
         % Tab group
         case 'uitabgroup'

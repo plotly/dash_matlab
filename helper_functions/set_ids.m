@@ -17,9 +17,12 @@ function map = set_ids(uigrid, map, nest)
         else
             map(type) = 1;
         end
-        ch.UserData = type + "_" + num2str(nest) + "_" + num2str(map(type));
+        %set only if empty
+        if isempty(ch.UserData)
+            ch.UserData = type + "_" + num2str(nest) + "_" + num2str(map(type));
+        end
         %recursively set id to its children, with passed elem counter
-        if isprop(ch, 'Children')
+        if isprop(ch, 'Children')           
             set_ids(ch, map, nest+1);
         end
     end

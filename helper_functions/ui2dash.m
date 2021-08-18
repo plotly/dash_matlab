@@ -126,8 +126,23 @@ function component = ui2dash(ui_widget, id)
             plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
             component = py.dash_core_components.Graph(pyargs('id', id, 'figure', plotlyfig));            
         
-        % DataTable Properties
+        % DataTable Properties for html.Table and DataTable
         case 'uitable'
+            if ~isstruct(ui_widget.UserData)
+                table = ui_widget;
+                sz = size(table.Data);
+                rows=py.list();
+                for i=1:sz(1)
+                    cols=py.list();
+                    for j=1:sz( 2)
+                        cl = py.dash_html_components.Td(pyargs( ...
+                            'id', table.UserData(i, j), 'children', table.Data(i, j)));
+                        cols.append(cl);
+                    end                
+                    rows.append(py.dash_html_components.Tr(cols));                
+                end
+                component = py.dash_html_components.Table(pyargs( 'children', rows));
+            else
             tb = ui_widget;
             [lnrows, lncols] = size(tb.Data);
             
@@ -159,6 +174,7 @@ function component = ui2dash(ui_widget, id)
             end
 
             component = py.dash_table.DataTable(pyargs(items{:}));
+            end
             
         % Tab group
         case 'uitabgroup'

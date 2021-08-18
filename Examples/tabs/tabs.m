@@ -12,7 +12,7 @@ tg.Layout.Column = [ 1 8];
 t1 = uitab(tg,'Title','Member Information');
 t2 = uitab(tg,'Title','Me');
 dd = uidropdown(t1,'Items',{'Male','Female'});
-dd.Position=[100 200 100 20]
+dd.Position=[100 200 100 20];
 cb = uicheckbox(t2,'Text','Member');
 %add axes
 ax=axes(t1);

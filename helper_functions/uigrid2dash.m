@@ -105,8 +105,7 @@ function ui_dash = uigrid2dash(chldrn)
     chilcols={};
     res={};
     %nest rows
-
-    if fulrowln>3 && emprln<11
+    if fulrowln>3 && emprln<11   
         for ir=1:fulrowln-1
             for ic = 1:chln
                 ch=chldrn(ic);

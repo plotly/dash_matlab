@@ -19,18 +19,22 @@ function component = ui2dash(ui_widget, id)
                 'step', round(max(sld.MajorTicks)/length(sld.MajorTicks))));
             
         case 'uibuttongroup'
-            butgroup = ui_widget;
-              
+            butgroup = ui_widget;              
             lnbut = length(butgroup.Buttons);
             opts = {lnbut};
-            for i=1:lnbut
-                 opts{i} = py.dict(pyargs('label', butgroup.Buttons(i).Text, 'value', butgroup.Buttons(i).Text));
+            if lnbut>0
+                for i=1:lnbut
+                     opts{i} = py.dict(pyargs('label', butgroup.Buttons(i).Text, 'value', butgroup.Buttons(i).Text));
+                end
+                component = py.dash_core_components.RadioItems(pyargs('id', id, ...
+                            'options', opts, ...
+                            'value', butgroup.Buttons(1).Text, ...
+                            'labelStyle', py.dict(pyargs('display', 'inline-block')))   );
+            else
+                component = py.dash_core_components.RadioItems(pyargs('id', id, ...
+                            'labelStyle', py.dict(pyargs('display', 'inline-block')))   );                
             end
-            component = py.dash_core_components.RadioItems(pyargs('id', id, ...
-            'options', opts, ...
-            'value', butgroup.Buttons(1).Text, ...
-            'labelStyle', py.dict(pyargs('display', 'inline-block')))   );
-        
+            
         % DropDown Properties
         case 'uidropdown'
             drpdown = ui_widget;
@@ -122,11 +126,21 @@ function component = ui2dash(ui_widget, id)
             plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
             component = py.dash_core_components.Graph(pyargs('id', id, 'figure', plotlyfig));            
         
-        % Table Properties (TODO)
+        % Table Properties 
         case 'uitable'
-            sld = ui_widget;
-            component = py.dash_html_components.Table(pyargs(...
-                'children',sld.Data));
+            table = ui_widget;
+            sz = size(table.Data);
+            rows=py.list();
+            for i=1:sz(1)
+                cols=py.list();
+                for j=1:sz( 2)
+                    cl = py.dash_html_components.Td(pyargs( ...
+                        'id', table.UserData(i, j), 'children', table.Data(i, j)));
+                    cols.append(cl);
+                end                
+                rows.append(py.dash_html_components.Tr(cols));
+            end
+            component = py.dash_html_components.Table(pyargs( 'children', rows));
             
         % Tab group
         case 'uitabgroup'
@@ -141,7 +155,7 @@ function component = ui2dash(ui_widget, id)
                 nest = py.list();
                 %cycle through tab content
                 for j=1:nestln
-                    nest.append(ui2dash(tb.Children(j), num2str(rand())));
+                    nest.append(ui2dash(tb.Children(j), tb.Children(j).UserData));
                 end
                 %add tab with tab content to group
                 tabs.append(py.dash_core_components.Tab(pyargs( ...
@@ -150,5 +164,16 @@ function component = ui2dash(ui_widget, id)
             end
             %tab group
             component = py.dash_core_components.Tabs(tabs);            
+            
+        %numeric edit field
+        case 'uinumericeditfield'
+            component = py.dash_core_components.Input(...
+                pyargs('id', ui_widget.UserData, 'type', 'number', 'value', ui_widget.Value));
+
+        %text edit field
+        case 'uieditfield'
+            component = py.dash_core_components.Input(...
+                pyargs('id', ui_widget.UserData, 'type', 'text', 'value', ui_widget.Value));
+    
     end
 end

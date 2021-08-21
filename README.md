@@ -38,7 +38,7 @@ plotlysetup_offline()
 Don't use `plotlysetup_online()` with Dash for MATLAB®. 
 
 4. Add `dash_matlab` folder to yourMATLAB® [path](https://www.mathworks.com/help/matlab/ref/addpath.html):  
-`addpath('~/dash_matlab/Aux')`  
+`addpath('~/dash_matlab/helper_functions')`  
 (You can also do this in the [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
 
 ## Deploying MATLAB® Dash apps on [AWS](https://aws.amazon.com/console/):

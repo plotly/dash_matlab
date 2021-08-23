@@ -29,7 +29,7 @@ dropd2.Tag = "yaxis-column";
 bg1 = uibuttongroup(uigr);   
 bg1.Tag = "xaxis-type";
 bg1.Layout.Row=2;
-bg1.Layout.Column=1;
+bg1.Layout.Column=[1 2];
 
 rb1 = uiradiobutton(bg1);
 rb1.Text = 'Linear';
@@ -40,7 +40,7 @@ rb2.Text = 'Log';
 bg2 = uibuttongroup(uigr);   
 bg2.Tag = "yaxis-type";
 bg2.Layout.Row=2;
-bg2.Layout.Column=7;
+bg2.Layout.Column=[7 8];
 
 rb3 = uiradiobutton(bg2);
 rb3.Text = 'Linear';

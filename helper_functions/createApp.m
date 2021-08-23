@@ -7,6 +7,6 @@ function app = createApp()
 
     ext_stylesheets = py.list({py.str('https://codepen.io/chriddyp/pen/bWLwgP.css'), dct});
     
-    app = py.dash.Dash('__main__',pyargs('external_stylesheets',ext_stylesheets));
+    app = py.dash.Dash('__main__', pyargs('external_stylesheets', ext_stylesheets));
        
 end

@@ -1,5 +1,5 @@
 function component = ui2dash(ui_widget, id)
-
+    pad = 5; %padding in px
     switch ui_widget.Type
         case 'uislider'
             
@@ -29,10 +29,10 @@ function component = ui2dash(ui_widget, id)
                 component = py.dash_core_components.RadioItems(pyargs('id', id, ...
                             'options', opts, ...
                             'value', butgroup.Buttons(1).Text, ...
-                            'labelStyle', py.dict(pyargs('display', 'inline-block')))   );
+                            'labelStyle', py.dict(pyargs('display', 'inline-block', 'padding', num2str(pad)+"px"))));
             else
                 component = py.dash_core_components.RadioItems(pyargs('id', id, ...
-                            'labelStyle', py.dict(pyargs('display', 'inline-block')))   );                
+                            'labelStyle', py.dict(pyargs('display', 'inline-block', 'padding', num2str(pad)+"px"))));                
             end
             
         % DropDown Properties
@@ -193,15 +193,45 @@ function component = ui2dash(ui_widget, id)
         case 'axes'
             axs = ui_widget;
             f=figure('visible','off');
-            ff=copyobj(axs,f);
-            plotlyfig = fig2plotly(f, 'offline', true, 'open', false,'Visible',false);
-            close(f);
-            plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
-            component = py.dash_core_components.Graph(pyargs('id', id, 'figure', plotlyfig));            
+            copyobj(axs,f);
+            plotlyfig = plotlyfig2dash(fig2plotly(f, 'offline', true, 'open', false,'Visible',false), axs.Tag);
+            close(f);            
+            component = plotlyfig;
         
         % DataTable Properties for html.Table and DataTable
         case 'uitable'
-            if ~isstruct(ui_widget.UserData)
+            % for datatable
+            if isstruct(ui_widget.UserData)
+                tb = ui_widget;
+                [lnrows, lncols] = size(tb.Data);
+
+                if isfield(tb.UserData, 'customColumns')
+                    cols = tb.UserData.customColumns;
+                    tb.UserData = rmfield(tb.UserData, 'customColumns');
+                else
+                    cols = {lncols};
+                    for i=1:lncols
+                        cols{i} = py.dict(pyargs('name', string(tb.ColumnName(i)), 'id', string(tb.ColumnName(i))));
+                    end
+                end
+                data = {lnrows};
+                for i=1:lnrows
+                    d = py.dict();
+                    for j=1:lncols
+                        update(d, py.dict(pyargs(string(tb.ColumnName(j)), tb.Data{i,j})));
+                    end
+                    data{i} = d;
+                end
+                items = {'id', id,...
+                    'columns', py.list(cols),...
+                    'data', py.list(data)};
+                for item = fieldnames(tb.UserData)'
+                    items{end+1} = char(item);
+                    items{end+1} = tb.UserData.(char(item));
+                end
+                component = py.dash_table.DataTable(pyargs(items{:}));
+            % for html.Table as container for other elements
+            else    
                 table = ui_widget;
                 sz = size(table.Data);
                 rows=py.list();
@@ -215,39 +245,7 @@ function component = ui2dash(ui_widget, id)
                     rows.append(py.dash_html_components.Tr(cols));                
                 end
                 component = py.dash_html_components.Table(pyargs( 'children', rows));
-            else
-                tb = ui_widget;
-                [lnrows, lncols] = size(tb.Data);
-
-                if isfield(tb.UserData, 'customColumns')
-                    cols = tb.UserData.customColumns;
-                    tb.UserData = rmfield(tb.UserData, 'customColumns');
-                else
-                    cols = {lncols};
-                    for i=1:lncols
-                        cols{i} = py.dict(pyargs('name', string(tb.ColumnName(i)), 'id', string(tb.ColumnName(i))));
-                    end
-                end
-
-                data = {lnrows};
-                for i=1:lnrows
-                    d = py.dict();
-                    for j=1:lncols
-                        update(d, py.dict(pyargs(string(tb.ColumnName(j)), tb.Data{i,j})));
-                    end
-                    data{i} = d;
-                end
-
-                items = {'id', id,...
-                    'columns', py.list(cols),...
-                    'data', py.list(data)};
-                for item = fieldnames(tb.UserData)'
-                    items{end+1} = char(item);
-                    items{end+1} = tb.UserData.(char(item));
-                end
-
-                component = py.dash_table.DataTable(pyargs(items{:}));
-            end
+             end
             
         % Tab group
         case 'uitabgroup'
@@ -262,7 +260,7 @@ function component = ui2dash(ui_widget, id)
                 nest = py.list();
                 %cycle through tab content
                 for j=1:nestln
-                    nest.append(ui2dash(tb.Children(j), tb.Children(j).UserData));
+                    nest.append(ui2dash(tb.Children(j), tb.Children(j).Tag));
                 end
                 %add tab with tab content to group
                 tabs.append(py.dash_core_components.Tab(pyargs( ...
@@ -270,17 +268,18 @@ function component = ui2dash(ui_widget, id)
                     'children', nest)));
             end
             %tab group
-            component = py.dash_core_components.Tabs(tabs);            
+            component = py.dash_core_components.Tabs(pyargs('children', tabs, ...
+                    'style', py.dict(pyargs('padding', num2str(pad)+"px"))));            
             
         %numeric edit field
         case 'uinumericeditfield'
             component = py.dash_core_components.Input(...
-                pyargs('id', ui_widget.UserData, 'type', 'number', 'value', ui_widget.Value));
+                pyargs('id', ui_widget.Tag, 'type', 'number', 'value', ui_widget.Value));
 
         %text edit field
         case 'uieditfield'
             component = py.dash_core_components.Input(...
-                pyargs('id', ui_widget.UserData, 'type', 'text', 'value', ui_widget.Value));
+                pyargs('id', ui_widget.Tag, 'type', 'text', 'value', ui_widget.Value));
     
     end
 end

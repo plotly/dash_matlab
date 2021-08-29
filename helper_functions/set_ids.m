@@ -1,4 +1,4 @@
-% set id to all grid components in UserData property
+% set id to all grid components in Tag property
 function map = set_ids(uigrid, map, nest)
     %pass dict with element count through recursion
     if ~exist('map','var')        
@@ -18,8 +18,8 @@ function map = set_ids(uigrid, map, nest)
             map(type) = 1;
         end
         %set only if empty
-        if isempty(ch.UserData)
-            ch.UserData = type + "_" + num2str(nest) + "_" + num2str(map(type));
+        if isempty(ch.Tag)
+            ch.Tag = type + "_" + num2str(nest) + "_" + num2str(map(type));
         end
         %recursively set id to its children, with passed elem counter
         if isprop(ch, 'Children')           

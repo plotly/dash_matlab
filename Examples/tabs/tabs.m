@@ -16,8 +16,12 @@ dd.Position=[100 200 100 20];
 cb = uicheckbox(t2,'Text','Member');
 %add axes
 ax=axes(t1);
-x.Position=[0.13 .11 .77 .5];
-plot(ax, 1:10, 1:10)
+ax.Position=[0.13 .11 .77 .5];
+plot(ax, 1:10, rand(10,1))
+
+ax=axes(t2);
+ax.Position=[0.13 .11 .77 .5];
+plot(ax, 1:10, rand(10,1))
 
 %start app
 app=start_dash(uigr, 8057);

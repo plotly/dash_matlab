@@ -205,30 +205,43 @@ function component = ui2dash(ui_widget, id)
                 tb = ui_widget;
                 [lnrows, lncols] = size(tb.Data);
 
-                if isfield(tb.UserData, 'customColumns')
-                    cols = tb.UserData.customColumns;
-                    tb.UserData = rmfield(tb.UserData, 'customColumns');
-                else
+                if ~isfield(tb.UserData, 'columns')
                     cols = {lncols};
                     for i=1:lncols
                         cols{i} = py.dict(pyargs('name', string(tb.ColumnName(i)), 'id', string(tb.ColumnName(i))));
                     end
+                    tb.UserData.columns = py.list(cols);            
                 end
+
                 data = {lnrows};
                 for i=1:lnrows
                     d = py.dict();
                     for j=1:lncols
-                        update(d, py.dict(pyargs(string(tb.ColumnName(j)), tb.Data{i,j})));
+                        try
+                            update(d, py.dict(pyargs(string(tb.ColumnName(j)), tb.Data{i,j})));
+                        catch e
+                            if e.message == "Conversion of MATLAB 'datetime' to Python is not supported."
+                                matlab_date = tb.Data{i,j};
+                                daten = datenum(matlab_date);
+                                days = rem(daten, 1);
+                                date = py.datetime.date.fromordinal(py.int(daten)) +...
+                                    py.datetime.timedelta(pyargs('days',days)) -...
+                                    py.datetime.timedelta(pyargs('days', 366));
+
+                                update(d, py.dict(pyargs(string(tb.ColumnName(j)), date)));
+                            end
+                        end
                     end
                     data{i} = d;
                 end
+
                 items = {'id', id,...
-                    'columns', py.list(cols),...
                     'data', py.list(data)};
                 for item = fieldnames(tb.UserData)'
                     items{end+1} = char(item);
                     items{end+1} = tb.UserData.(char(item));
                 end
+
                 component = py.dash_table.DataTable(pyargs(items{:}));
             % for html.Table as container for other elements
             else    
@@ -274,12 +287,14 @@ function component = ui2dash(ui_widget, id)
         %numeric edit field
         case 'uinumericeditfield'
             component = py.dash_core_components.Input(...
-                pyargs('id', ui_widget.Tag, 'type', 'number', 'value', ui_widget.Value));
+                pyargs('id', id, 'type', 'number', 'value', ui_widget.Value,...
+                'min', ui_widget.Limits(1), 'max', ui_widget.Limits(2)));
 
         %text edit field
         case 'uieditfield'
             component = py.dash_core_components.Input(...
-                pyargs('id', ui_widget.Tag, 'type', 'text', 'value', ui_widget.Value));
+                pyargs('id', id, 'type', 'text', 'value', ui_widget.Value,...
+                'placeholder', ui_widget.Placeholder));
     
     end
 end

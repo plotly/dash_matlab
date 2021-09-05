@@ -1,16 +1,20 @@
-function handle = useCallback(myCallback)
-% myCallback: name of matlab callback function (string)
-% handle: python handle function returned
-
+function useCallback(myCallbacks)
+% myCallbacks: name of matlab callbacks functions (cell of strings)
+    
     pathToCallbackPyFile = fileparts(which('callbackP.py'));
     
-    P = py.sys.path;
-    if count(P,pathToCallbackPyFile) == 0
-        insert(P,int32(0),pathToCallbackPyFile);
+    outFile = fopen(strcat(pathToCallbackPyFile, '\callbackP.py'), 'w');
+    fprintf(outFile, 'import matlab.engine\n');
+    fprintf(outFile, 'import json\n\n');
+    fprintf(outFile, 'future = matlab.engine.start_matlab(background=True)\n');
+    fprintf(outFile, 'eng = future.result()\n\n');
+    
+    for matlabCallback = myCallbacks
+        fprintf(outFile, 'def %s(*args):\n', matlabCallback{1});
+        fprintf(outFile, "    outputs = json.loads(eng.%s(*args))\n", matlabCallback{1});
+        fprintf(outFile, '    return outputs\n\n');
     end
     
-    mod = py.importlib.import_module('callbackP');
+    fclose(outFile);
 
-    py.setattr(mod, 'callbackMatlabFunction', myCallback);
-    handle = @py.callbackP.callback;
 end

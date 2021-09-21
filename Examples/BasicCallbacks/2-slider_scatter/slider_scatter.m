@@ -7,9 +7,9 @@ sliderApp = createApp();
 % Read data file.
 gapminderDataFiveYear = readtable('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv');
 
-uifig = uifigure('visible', 'off');
+uiFig = uifigure('visible', 'off');
 size = [12, 12];
-uigrid = uigridlayout(uifig, size);
+uigrid = uigridlayout(uiFig, size);
 
 % Create initial graph.
 ax = axes(uigrid);

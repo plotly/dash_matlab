@@ -1,5 +1,5 @@
 function fig = plotlyfig2dash(plotlyfig, id)
-    
+
     if iscategorical(plotlyfig.data{1}.x)
         plotlyfig.layout.xaxis1.('ticktext') = cellstr(plotlyfig.data{1}.x);
         for i=1:numel(plotlyfig.data)
@@ -23,7 +23,7 @@ function fig = plotlyfig2dash(plotlyfig, id)
             plotlyfig.layout.bargroupgap = 0;
         end
     end
-    
+
     plotlyfig = py.dict(pyargs('data',plotlyfig.data,'layout',plotlyfig.layout));
     
     fig = py.dash_core_components.Loading(pyargs('id', string(id)+'loading',...

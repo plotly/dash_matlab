@@ -1,6 +1,5 @@
 %convert matlab ui grid to dash
 function ui_dash = uigrid2dash(chldrn)
-    %chldrn
     chln=length(chldrn);
     pad = 5; %padding in px
     ver=[1 1]; 
@@ -8,7 +7,6 @@ function ui_dash = uigrid2dash(chldrn)
     occrow=int16.empty(0,2);
     occol=int16.empty(0,2);
     for i=1:chln
-        
         row=chldrn(i).Layout.Row;
         col=chldrn(i).Layout.Column;
 
@@ -144,5 +142,5 @@ function ui_dash = uigrid2dash(chldrn)
         bordchl = chldrn;
         ui_dash = ui2dash(bordchl, bordchl.Tag);        
     end
-    
+
 end

@@ -1,4 +1,15 @@
 function component = ui2dash(ui_widget, id)
+
+    function hex = rgb2hex(rgb)
+            if max(rgb(:))<=1
+                rgb = round(rgb*255); 
+            else
+                rgb = round(rgb); 
+            end
+            hex(:,2:7) = reshape(sprintf('%02X',rgb.'),6,[]).'; 
+            hex(:,1) = '#';
+    end
+
     pad = 5; %padding in px
     switch ui_widget.Type
         case 'uislider'
@@ -174,8 +185,15 @@ function component = ui2dash(ui_widget, id)
         % Label Properties
         case 'uilabel'
             lbl = ui_widget;
+
             component = py.dash_html_components.Label(pyargs(...
-                'id',id, 'children', lbl.Text));
+                'id',id, 'children', lbl.Text,...
+                'style', py.dict(pyargs(...
+                    'font-size', lbl.FontSize,...
+                    'font-weight', lbl.FontWeight,...
+                    'color', rgb2hex(lbl.FontColor),...
+                    'textAlign', lbl.HorizontalAlignment,...
+                    'display', 'block'))));
 
         % Hyperlink Properties
         case 'uihyperlink'

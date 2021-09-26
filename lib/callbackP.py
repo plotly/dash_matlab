@@ -4,7 +4,7 @@ import json
 future = matlab.engine.start_matlab(background=True)
 eng = future.result()
 
-def callback(*args):
-    outputs = json.loads(eng.callback(*args))
+def updateGraph(*args):
+    outputs = json.loads(eng.updateGraph(*args))
     return outputs
 

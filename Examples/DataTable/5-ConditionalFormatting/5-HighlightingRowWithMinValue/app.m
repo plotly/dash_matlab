@@ -1,16 +1,23 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('condForm1.csv', 'PreserveVariableNames', true);
+% Define data table
+Date = {'2015-01-01';'2015-10-24';'2016-05-10';'2017-01-10';'2018-05-10';'2018-08-15'};
+Delivery = {'2015-01-02';'2015-10-24';'2016-05-15';'2017-01-14';'2018-05-10';'2018-08-11'};
+Region = {'Montreal';'Toronto';'New York City';'Miami';'San Francisco';'London'};
+Temperature = [1;-20;3.512;4;10423;-441.2];
+Humidity = [10;20;30;40;50;60];
+Pressure = [2;10924;3912;-10;3591.2;15];
 
-% create Dash app
-table_app = createApp();
+data = table(Date, Delivery, Region, Temperature, Humidity, Pressure);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
+
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 style_data_conditional = {1};
 style_data_conditional{1} = struct(...
@@ -19,13 +26,8 @@ style_data_conditional{1} = struct(...
     'color', 'white');
 style_data_conditional = {style_data_conditional};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'style_data_conditional', style_data_conditional);
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

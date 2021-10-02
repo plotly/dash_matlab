@@ -1,20 +1,21 @@
 function fig = plotlyfig2dash(plotlyfig, id)
+    try
+        if iscategorical(plotlyfig.data{1}.x)
+            plotlyfig.layout.xaxis1.('ticktext') = cellstr(plotlyfig.data{1}.x);
+            for i=1:numel(plotlyfig.data)
+                plotlyfig.data{i}.x = 1:1:numel(plotlyfig.data{i}.x);
+            end
+            plotlyfig.layout.xaxis1.('tickmode') = 'array';
+            plotlyfig.layout.xaxis1.('tickvals') = 1:1:numel(plotlyfig.data{1}.x);
+            plotlyfig.layout.xaxis1.autorange = 1;
+            plotlyfig.layout.yaxis1.autorange = 1;
 
-    if iscategorical(plotlyfig.data{1}.x)
-        plotlyfig.layout.xaxis1.('ticktext') = cellstr(plotlyfig.data{1}.x);
-        for i=1:numel(plotlyfig.data)
-            plotlyfig.data{i}.x = 1:1:numel(plotlyfig.data{i}.x);
+            plotlyfig.layout.showlegend = 1;
+            plotlyfig.layout.('legend') = struct(...
+                'font', struct('color', '#7f7f7f'),...
+                'y', 0.5, 'x', 1);  
+
         end
-        plotlyfig.layout.xaxis1.('tickmode') = 'array';
-        plotlyfig.layout.xaxis1.('tickvals') = 1:1:numel(plotlyfig.data{1}.x);
-        plotlyfig.layout.xaxis1.autorange = 1;
-        plotlyfig.layout.yaxis1.autorange = 1;
-
-        plotlyfig.layout.showlegend = 1;
-        plotlyfig.layout.('legend') = struct(...
-            'font', struct('color', '#7f7f7f'),...
-            'y', 0.5, 'x', 1);  
-
     end
     
     try

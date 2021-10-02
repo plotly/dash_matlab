@@ -127,16 +127,16 @@ function component = ui2dash(ui_widget, id)
 
             component = py.dash_daq.BooleanSwitch(pyargs(...
                 'id',id, 'on', false,...
-                'disabled', s.Enable == 'off',...
-                'vertical', s.Orientation == 'vertical'));
+                'disabled', strcmp(s.Enable, 'off'),...
+                'vertical', strcmp(s.Orientation, 'vertical')));
             
         % Toggle Switch Properties
         case 'uitoggleswitch'
             s = ui_widget;           
             component = py.dash_daq.ToggleSwitch(pyargs(...
                 'id',id, 'value', false, 'size', 100,...
-                'disabled', s.Enable == 'off',...
-                'vertical', s.Orientation == 'vertical'));
+                'disabled', strcmp(s.Enable, 'off'),...
+                'vertical', strcmp(s.Orientation, 'vertical')));
             
         % DatePicker Properties
         case 'uidatepicker'
@@ -208,7 +208,7 @@ function component = ui2dash(ui_widget, id)
                 'id',id, 'src', img.ImageSource));
 
         % axes Properties
-        case 'axes'
+        case {'axes','geoaxes'}
             axs = ui_widget;
             f=figure('visible','off');
             copyobj(axs,f);

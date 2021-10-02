@@ -8,7 +8,7 @@ uiFigure = uifigure('visible', 'off');
 size = [12, 12];
 uiGrid = uigridlayout(uiFigure, size);
 
-% Plot
+% Initial Plot
 ax = axes(uiGrid);
 fig = figure('visible', 'off');
 t = (0:0.02:2*pi);
@@ -44,7 +44,7 @@ args = {...
     argsOut('my-plot', 'figure'),...
     argsIn('freq-slider','value'),...
     argsIn('ampl-slider','value')};  
-handle = 'updateGraph';
+handle = 'updateGraph'; % Callback function
 
 callbackDat = {args, handle};
 

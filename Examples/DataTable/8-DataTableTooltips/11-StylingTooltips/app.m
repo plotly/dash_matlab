@@ -1,27 +1,29 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv');
+% Read data file
+data = readtable('https://git.io/Jgvhr');
 
-data = data([1:8],:); % Select first 8 rows
+data = data((1:8),:); % Select first 8 rows
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
-[lnrows, lncols] = size(uit.Data);
+lnrows = height(dataTable.Data);
+lncols = width(dataTable.Data);
+
 tooltip_data = {lnrows};
 for i=1:lnrows
     d = struct();
     for j=1:lncols
-        fld = string(uit.ColumnName(j));
+        fld = string(dataTable.ColumnName(j));
         d.(fld) = struct(...
-            'value', string(uit.Data{i,j}), 'type', 'markdown');
+            'value', string(dataTable.Data{i,j}), 'type', 'markdown');
     end
     tooltip_data{i} = d;
 end
@@ -34,16 +36,11 @@ css{1} = struct(...
     'rule','background-color: gray; font-family: monospace;');
 css = {css};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'tooltip_data', tooltip_data,...
     'css', css,...
     'tooltip_delay', 10,... % In ms. If set to 0 tooltip is not shown...
     'tooltip_duration', -1); % Use -1 to prevent the tooltip from disappearing
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

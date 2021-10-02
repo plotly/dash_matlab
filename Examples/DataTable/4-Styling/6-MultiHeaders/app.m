@@ -1,20 +1,19 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/Jgvhr', 'PreserveVariableNames', true);
+data = data((1:6),(1:7)); % Select first 6 rows and 7 columns
 
-data = data([1:10],[1:7]); % Select first 10 rows and first 7 columns
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create Dash app
-table_app = createApp();
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
-
-[~, lncols] = size(uit.Data);
+lncols = height(dataTable);
 columns = {lncols};
 columns{1} = struct('name', {{'','City, State'}}, 'id', 'City, State');
 columns{2} = struct('name', {{'Props1','Classification'}}, 'id', 'Classification');
@@ -25,14 +24,9 @@ columns{6} = struct('name', {{'Providers','Prov City'}}, 'id', 'Provider City');
 columns{7} = struct('name', {{'Providers','Prov Id'}}, 'id', 'Provider Id');
 columns = {columns};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'merge_duplicate_headers', true);
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

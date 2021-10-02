@@ -1,27 +1,25 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
+% Read data file
+data = readtable('https://git.io/JgqCd', 'PreserveVariableNames', true);
 
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', 'PreserveVariableNames', true);
-
-data.index = [1:1:height(data)]'; % Add index column
-data.Properties.VariableNames{end} = 'Aindex'; % Add space to index name
+data.index = (1:1:height(data))'; % Add index column
+data.Properties.VariableNames{end} = 'Aindex';
 data = data(:, sort(data.Properties.VariableNames));
 
 PAGE_SIZE = 5;
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table-paging-and-sorting');
 
 % Define columns
-[~, lncols] = size(uit.Data);
+lncols = width(dataTable.Data);
 columns = {lncols};
 for i=1:lncols
     col = data.Properties.VariableNames{i};
@@ -29,7 +27,7 @@ for i=1:lncols
 end
 columns = {columns};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'page_current', 0,...
     'page_size', PAGE_SIZE,...
@@ -38,19 +36,14 @@ uit.UserData = struct(...
     'sort_mode', 'single',...
     'sort_by', {{}});
 
-dash_table = ui2dash(uit, 'table-paging-and-sorting'); % Id of datatable is defined here
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% Callbacks
-
-table_callback = table_app.callback({argsOut('table-paging-and-sorting','data'),...
+% Callback
+args = {...
+    argsOut('table-paging-and-sorting','data'),...
     argsIn('table-paging-and-sorting','page_current'),...
     argsIn('table-paging-and-sorting','page_size'),...
-    argsIn('table-paging-and-sorting','sort_by')});
+    argsIn('table-paging-and-sorting','sort_by')};
+handle = 'update_table';
+callbackDat = {args, handle};
 
-table_callback(@py.callback.callback);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057, callbackDat);

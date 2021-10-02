@@ -1,58 +1,58 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/JgqCd', 'PreserveVariableNames', true);
 
-data.index = [1:1:height(data)]';
+data.index = (1:1:height(data))';
 data = movevars(data, 'index', 'Before', 'country');
 
 PAGE_SIZE = 5;
-% create Dash app
-table_app = createApp();
 
-% create ui elements
-uifig = uifigure('visible', 'off');
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'datatable-paging-page-count');
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'page_current', 0,...
     'page_size', PAGE_SIZE,...
     'page_action', 'custom');
 
-dash_table = ui2dash(uit, 'datatable-paging-page-count'); % Id of datatable is defined here
-
-br = py.dash_html_components.Br();
-
 % Checkbox
-chk = uicheckbox(uifig);
+chk = uicheckbox(uiGrid);
 chk.Value = true;
 chk.Text = 'Use page_count';
-checklist = ui2dash(chk, 'datatable-use-page-count');
+chk.Tag = 'datatable-use-page-count';
+
+% Input field label
+inpLabel = uilabel(uiGrid, 'Text', 'Page count: ');
 
 % Input field
-inp = uieditfield(uifig, 'numeric');
+inp = uieditfield(uiGrid, 'numeric');
 inp.Value = 20;
 inp.Limits = [1 29];
-input = ui2dash(inp, 'datatable-page-count');
-
-% add table to Dash app layout
-table_app.layout = addLayout(...
-    dash_table, br, checklist, 'Page count: ', input);
+inp.Tag = 'datatable-page-count';
 
 % Callbacks
 
-table_callback1 = table_app.callback({argsOut('datatable-paging-page-count','data'),...
+args1 = {...
+    argsOut('datatable-paging-page-count','data'),...
     argsIn('datatable-paging-page-count','page_current'),...
-    argsIn('datatable-paging-page-count','page_size')});
-table_callback1(@py.callback.callback1);
+    argsIn('datatable-paging-page-count','page_size')};
+handle1 = 'update_table1';
+callbackDat = {args1, handle1};
 
-table_callback2 = table_app.callback({argsOut('datatable-paging-page-count','page_count'),...
+args2 = {...
+    argsOut('datatable-paging-page-count','page_count'),...
     argsIn('datatable-use-page-count','value'),...
-    argsIn('datatable-page-count','value')});
-table_callback2(@py.callback.callback2);
+    argsIn('datatable-page-count','value')};
+handle2 = 'update_table2';
+callbackDat{2,1} = args2;
+callbackDat{2,2} = handle2;
 
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057, callbackDat);

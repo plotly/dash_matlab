@@ -1,6 +1,7 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
+
+tableApp = createApp();
 
 % Define data table
 shop = {'Bakersfield';'Berkeley';'Big Bear Lake'};
@@ -8,15 +9,16 @@ sales = [4;10;5];
 goal = [10;1;4];
 data = table(shop,sales,goal);
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 % Define custom columns
-[~, lncols] = size(uit.Data);
+lncols = width(dataTable.Data);
 columns = {lncols};
 columns{1} = struct('name', 'Store Location', 'id', 'shop');
 columns{2} = struct('name', 'Sales Revenue', 'id', 'sales');
@@ -26,10 +28,10 @@ columns = {columns};
 % Tooltips
 tooltip_data = {3};
 tooltip_data{1} = struct('shop', struct(...
-    'value', sprintf('Location at Bakersfield\n\n![Bakersfield](%s)', string(table_app.get_relative_path('/assets/images/table/bakersfield.jpg'))),...
+    'value', sprintf('Location at Bakersfield\n\n![Bakersfield](%s)', string(tableApp.get_relative_path('/assets/images/table/bakersfield.jpg'))),...
     'type', 'markdown'));
 tooltip_data{2} = struct('shop', struct(...
-    'value', sprintf('Location at Berkeley\n\n![Berkeley](%s)', string(table_app.get_relative_path('/assets/images/table/berkeley.jpg'))),...
+    'value', sprintf('Location at Berkeley\n\n![Berkeley](%s)', string(tableApp.get_relative_path('/assets/images/table/berkeley.jpg'))),...
     'type', 'markdown'));
 tooltip_data{3} = struct('shop', struct(...
     'value', 'Location at Big Bear Lake\n\n![Big Bear Lake](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Big_Bear_Valley%2C_California.jpg/1200px-Big_Bear_Valley%2C_California.jpg)',...
@@ -44,17 +46,12 @@ style_data_conditional{1} = struct(...
 style_data_conditional = {style_data_conditional};
 
 % User data
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'tooltip_data', tooltip_data,...
     'style_data_conditional', style_data_conditional,...
     'tooltip_delay', 10,... % In ms. If set to 0 tooltip is not shown...
     'tooltip_duration', -1); % Use -1 to prevent the tooltip from disappearing
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

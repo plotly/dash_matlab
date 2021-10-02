@@ -1,6 +1,5 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
 % Define data table
 year = [0:1:9]';
@@ -12,15 +11,17 @@ temp = [0:-100:-900]';
 humidity = [0:5:45]';
 data = table(year,montreal,toronto,ottawa,vancouver,temp,humidity);
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 % Define custom columns
-[~, lncols] = size(uit.Data);
+lncols = width(dataTable.Data);
+
 columns = {lncols};
 columns{1} = struct('name', {{'','Year'}}, 'id', 'year');
 columns{2} = struct('name', {{'City','Montreal'}}, 'id', 'montreal');
@@ -42,7 +43,7 @@ tooltip_header = struct(...
     'humidity', {{'Average for a Year', 'Percentage'}});
 
 % User data
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'merge_duplicate_headers', true,...
     'tooltip_header', tooltip_header,...
@@ -50,10 +51,5 @@ uit.UserData = struct(...
         'textDecoration', 'underline',...
         'textDecorationStyle', 'dotted'));
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

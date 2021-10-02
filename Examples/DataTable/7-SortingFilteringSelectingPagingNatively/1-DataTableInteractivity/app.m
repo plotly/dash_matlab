@@ -1,30 +1,29 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/JgqCd', 'PreserveVariableNames', true);
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'datatable-interactivity');
 
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
-
-[~, lncols] = size(uit.Data);
+lncols = width(data);
 columns = {lncols};
 for i=1:lncols
     columns{i} = struct(...
-        'name', string(uit.ColumnName(i)),...
-        'id', string(uit.ColumnName(i)),...
+        'name', string(dataTable.ColumnName(i)),...
+        'id', string(dataTable.ColumnName(i)),...
         'deletable', true,...
         'selectable', true);
 end
 columns = {columns};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'editable', true,...
     'filter_action', 'native',...
@@ -39,25 +38,26 @@ uit.UserData = struct(...
     'page_current', 0,...
     'page_size', 10);
 
-dash_table = ui2dash(uit, 'datatable-interactivity'); % Id of datatable is defined here
-
-container = py.dash_html_components.Div(pyargs('id','datatable-interactivity-container'));
-
-% add table to Dash app layout
-table_app.layout = addLayout(py.dash_html_components.Div({...
-    dash_table, container}));
+% Initial Plot
+ax = axes(uiGrid);
+ax.Tag = 'datatable-interactivity-container';
 
 % Callbacks
+argsStyles = {...
+    argsOut('datatable-interactivity','style_data_conditional'),...
+    argsIn('datatable-interactivity','selected_columns')};
+handleStyles = 'update_styles';
 
-styles_callback = table_app.callback({argsOut('datatable-interactivity','style_data_conditional'),...
-    argsIn('datatable-interactivity','selected_columns')});
+callbackDat = {argsStyles, handleStyles};
 
-graphs_callback = table_app.callback({argsOut('datatable-interactivity-container','children'),...
+argsGraphs = {...
+    argsOut('datatable-interactivity-container','figure'),...
     argsIn('datatable-interactivity','derived_virtual_data'),...
-    argsIn('datatable-interactivity','derived_virtual_selected_rows')});
+    argsIn('datatable-interactivity','derived_virtual_selected_rows')};
+handleGraphs = 'update_graphs';
 
-styles_callback(@py.callback.callback1);
-graphs_callback(@py.callback.callback2);
+callbackDat{2,1} = argsGraphs;
+callbackDat{2,2} = handleGraphs;
 
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057, callbackDat);

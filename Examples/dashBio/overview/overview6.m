@@ -1,0 +1,13 @@
+terminate(pyenv);
+clearvars;
+
+component = dashBio('Igv', {...
+        'id', 'my-dashbio-igv',...
+        'genome', 'ce11',...
+        'minimumBases', 100,...
+        'locus', 'chrV'});  
+    
+components = {component};
+
+% Run the app
+startDash(components, 8057);

@@ -5,7 +5,7 @@ function dccComponent = Dcc(method, properties)
     else
         a = char(jsonencode(properties));
         b = py.json.loads(a);
-        c = cell(b);        
+        c = cell(b);    
         dccComponent = py.dash_core_components.(method)(pyargs(c{:}));
     end
 end

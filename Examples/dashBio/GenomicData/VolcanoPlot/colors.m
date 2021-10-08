@@ -1,0 +1,19 @@
+terminate(pyenv);
+clearvars;
+
+data = readBioData('https://git.io/JVwyx', 'dataframe');
+
+volcano = dashBio('VolcanoPlot', {...
+    'dataframe', data,...
+    'effect_size_line_color', '#AB63FA',...
+    'genomewideline_color', '#EF553B',...
+    'highlight_color', '#119DFF',...
+    'col', '#2A3F5F'});
+
+component = Dcc('Graph', {...
+    'figure', volcano});  
+    
+components = {component};
+
+% Run the app
+startDash(components, 8057);

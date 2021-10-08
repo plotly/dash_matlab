@@ -1,0 +1,13 @@
+terminate(pyenv);
+clearvars;
+
+component = dashBio('Ideogram', {...
+        'id', 'ideogram-brush',...
+        'chromosomes', {'X'},...
+        'orientation', 'horizontal',...
+        'brush', 'chrX:1-10000000'});  
+    
+components = {component};
+
+% Run the app
+startDash(components, 8057);

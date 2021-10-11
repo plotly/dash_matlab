@@ -16,18 +16,35 @@ function component = ui2dash(ui_widget, id)
             
             sld = ui_widget; 
             
-            slider_marks = py.dict();
-            for i=1:length(sld.MajorTicks)
-                tick = string(sld.MajorTicks(i));
-                update(slider_marks, py.dict(pyargs(tick, tick)));
-            end
+            if isstruct(sld.UserData) % RangeSlider
+                marks1 = sld.UserData.marks;
+                slider_marks = py.dict();
+                for i=1:length(marks1)
+                    tick = string(marks1(i));
+                    update(slider_marks, py.dict(pyargs(tick, tick)));
+                end
 
-            component = py.dash_core_components.Slider(pyargs('id',id, ...
-                'min', min(sld.MajorTicks),  ...
-                'max', max(sld.MajorTicks),  ...
-                'value', sld.Value,  ...
-                'marks', slider_marks, ...
-                'step', sld.MajorTicks(2)-sld.MajorTicks(1)));
+                component = py.dash_core_components.RangeSlider(pyargs('id',id,...
+                    'min', sld.UserData.min,...
+                    'max', sld.UserData.max,...
+                    'value', sld.UserData.value,...
+                    'marks', slider_marks,...
+                    'step', sld.UserData.step));                
+            else
+            
+                slider_marks = py.dict();
+                for i=1:length(sld.MajorTicks)
+                    tick = string(sld.MajorTicks(i));
+                    update(slider_marks, py.dict(pyargs(tick, tick)));
+                end
+
+                component = py.dash_core_components.Slider(pyargs('id',id, ...
+                    'min', min(sld.MajorTicks),  ...
+                    'max', max(sld.MajorTicks),  ...
+                    'value', sld.Value,  ...
+                    'marks', slider_marks, ...
+                    'step', sld.MajorTicks(2)-sld.MajorTicks(1)));
+            end
             
         case 'uibuttongroup'
             butgroup = ui_widget;              
@@ -208,7 +225,7 @@ function component = ui2dash(ui_widget, id)
                 'id',id, 'src', img.ImageSource));
 
         % axes Properties
-        case {'axes','geoaxes'}
+        case 'axes'
             axs = ui_widget;
             f=figure('visible','off');
             copyobj(axs,f);

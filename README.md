@@ -6,18 +6,21 @@ Dash for MATLAB® provides an interface to use the Dash library and create analy
 
 This folder contains examples of usage:
 - Determine which Button Changed with `callback_context`, ([button](https://github.com/plotly/dash_matlab/tree/main/Examples/button))
-- Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/main/Examples/slider_scatter))  
-- Multi-input callback example, ([multi_input](https://github.com/plotly/dash_matlab/tree/main/Examples/multi_input))  
+- Interactive statistical scatter plot with slider, ([slider_scatter](https://github.com/plotly/dash_matlab/tree/main/Examples/BasicCallbacks/2-slider_scatter))  
+- Multi-input callback example, ([multi_input](https://github.com/plotly/dash_matlab/tree/main/Examples/BasicCallbacks/3-multi_input))  
 
-## [Helper_functions](https://github.com/plotly/dash_matlab/tree/main/helper_functions)
+## [Helper_functions (lib)](https://github.com/plotly/dash_matlab/tree/main/lib)
 
 This folder contains backend helper functions:  
+- startDash.m - starts the app from a set of components or a gridlayout.
 - addLayout.m - builds the layout for the Dash app.  
 - argsIn.m - Wrapper for Dash callback input arguments.  
 - argsOut.m - Wrapper for Dash callback output arguments.  
 - createApp.m - Creates the Dash web server object.  
 - ui2dash.m - Converts MATLAB UI components to Dash components.  
 - plotlyfig2dash.m - Converts Plotly MATLAB figures to Dash Graph components.  
+- Html.m - dash_html_components constructor
+- Dcc.m - dash_core_components constructor
 
 ## Getting Started
 
@@ -37,9 +40,9 @@ plotlysetup_offline()
 ```  
 Don't use `plotlysetup_online()` with Dash for MATLAB®. 
 
-4. Add `dash_matlab` folder to yourMATLAB® [path](https://www.mathworks.com/help/matlab/ref/addpath.html):  
-`addpath('~/dash_matlab/helper_functions')`  
-(You can also do this in the [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `dash_matlab`:    
+4. Add `lib` folder to your MATLAB® [path](https://www.mathworks.com/help/matlab/ref/addpath.html):  
+`addpath('~/dash_matlab/lib')`  
+(You can also do this in the [GUI](https://ibb.co/HYgsPGL), add with [subfolders](https://ibb.co/tCgv3rC) `lib`:    
 
 ## Deploying MATLAB® Dash apps on [AWS](https://aws.amazon.com/console/):
 

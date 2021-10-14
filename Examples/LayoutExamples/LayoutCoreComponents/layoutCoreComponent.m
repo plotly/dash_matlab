@@ -1,9 +1,6 @@
 terminate(pyenv);
 clearvars; % Removes all variables from the currently active workspace.
 
-% Create Dash app
-app = createApp();
-
 uiFigure = uifigure('visible', 'on');
 size = [12, 12];
 uiGrid = uigridlayout(uiFigure, size);

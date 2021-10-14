@@ -1,5 +1,9 @@
 function useCallback(myCallbacks)
-% myCallbacks: name of matlab callbacks functions (cell of strings)
+% This function writes a Python callback file.
+%
+%  The new file is called in the background.
+%
+%  myCallbacks: name of matlab callbacks functions (cell of strings)
     
     pathToCallbackPyFile = fileparts(which('callbackP.py'));
     

@@ -1,4 +1,15 @@
 function dccComponent = Dcc(method, properties)
+% Dcc Constructs a dash_core_components component for dash
+%
+%  Dcc(method, properties)
+%
+%  method: string.
+%  properties: cell array containing name-value pairs with properties.
+%
+%  For example, a dash_core_components.Graph(figure=figure) would be
+%  done like:
+%
+%  Dcc('Graph', {'figure', figure})
     if strcmp(method, 'Graph')
         try
             plotlyfig = py.dict(pyargs('data',properties{2}.data,'layout',properties{2}.layout));

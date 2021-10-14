@@ -3,13 +3,11 @@ function plotlyFig = update_figure(slider_range)
     low = slider_range{1};
     high = slider_range{2};
 
-    figure('visible', 'off');
-
     rows = (irisData.petal_width > low & irisData.petal_width < high);
     subtab = irisData(rows,:);
 
     color = lines(3); % Generate color values
-    
+
     gscatter(subtab.sepal_width, subtab.sepal_length,...
         categorical(subtab.species),... % Group
         color,... % Color
@@ -20,7 +18,8 @@ function plotlyFig = update_figure(slider_range)
     ylabel(gca, 'sepal length');
 
     fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);
-
+    addtheme(fig, 'plotly_dark');
+    
     plotlyFig1 = {struct('data', {fig.('data')}, 'layout', fig.('layout'))};
     plotlyFig = char(jsonencode(plotlyFig1));
 end

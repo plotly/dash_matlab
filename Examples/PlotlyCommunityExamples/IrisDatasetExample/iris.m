@@ -4,6 +4,7 @@ clearvars; % Removes all variables from the currently active workspace.
 % Create initial graph.
 ax = axes('Tag', 'scatter-plot');
 graph = ui2dash(ax);
+centerGraph = Html('Center', {graph});
 
 % Slider title
 sliderText = Html('H2', {'Petal Width'});
@@ -16,7 +17,7 @@ slider.UserData = struct(...
     'value', {{0.5, 2}});
 uislider = ui2dash(slider, 'range-slider');
 
-components = {graph, sliderText, uislider};
+components = {centerGraph, sliderText, uislider};
 
 % Define the callbacks.
 args = {argsOut('scatter-plot', 'figure'), argsIn('range-slider','value')};

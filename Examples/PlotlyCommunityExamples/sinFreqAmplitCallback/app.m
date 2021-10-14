@@ -7,8 +7,6 @@ uiGrid = uigridlayout(uiFigure, size);
 
 % Initial Plot
 ax = axes(uiGrid);
-%t = (0:0.02:2*pi);
-%plot(ax, t, sin(2*pi*1*t));
 ax.Tag = 'my-plot';
 
 % Frequency
@@ -35,7 +33,7 @@ amplitudeLabel = uilabel(uiGrid, 'Text', 'Amplitude',...
 amplitudeLabel.Layout.Row = 3;
 amplitudeLabel.Layout.Column = 9;
 
-% define the callbacks
+% Define the callbacks
 args = {...
     argsOut('my-plot', 'figure'),...
     argsIn('freq-slider','value'),...
@@ -44,5 +42,5 @@ handle = 'updateGraph'; % Callback function
 
 callbackDat = {args, handle};
 
-% run the app
+% Run the app
 startDash(uiGrid, 8057, callbackDat, 'SOLAR');

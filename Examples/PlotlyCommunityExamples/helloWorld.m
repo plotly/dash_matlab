@@ -12,4 +12,4 @@ title.FontColor = 'red';
 title.HorizontalAlignment = 'center';
 
 % Run the app.
-startDash(uiGrid, 8057, [], 'SOLAR');
+startDash(uiGrid, 8057, [], 'DARKLY');

@@ -18,9 +18,9 @@ function app = startDash(uigrid, port, callbacks_dat, theme)
 %
 % Visit this link for more details:
 % https://dash-bootstrap-components.opensource.faculty.ai/docs/themes/
-    % If theme is not set, make DARKLY the default
+    % If theme is not set, make CERULEAN the default
     if ~exist('theme', 'var')
-        theme = 'DARKLY';
+        theme = 'CERULEAN';
     end
     % If uigrid is NOT a uigridlayout,
     % then it has to be a set of components

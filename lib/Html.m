@@ -8,9 +8,10 @@ function htmlComponent = Html(varargin)
     method = varargin{1}; % Div, H1, H2, etc.
     if nargin == 2
         properties = varargin{2}; % Name value pairs.
-        % If there is only one property, make it the children.
-        if length(properties) == 1
-            properties = {'children', properties{1}};
+        % If the number of properties is odd,
+        % make the first one the children
+        if mod(length(properties),2)
+            properties = ['children', properties];
         end
 
         htmlComponent = py.dash_html_components.(method)(...

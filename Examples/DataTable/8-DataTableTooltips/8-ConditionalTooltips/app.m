@@ -1,45 +1,40 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/Jgvhr');
 
-data = data([1:7],:); % Select first 7 rows
+data = data((1:7),:); % Select first 7 rows
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 tooltip_conditional = {1};
 tooltip_conditional{1} = struct(...
-    'if', struct('filter_query','{Provider Name} contains "HOSPITAL"'),...
+    'if', struct('filter_query','{ProviderName} contains "HOSPITAL"'),...
     'type','markdown',...
     'value','This row is significant.');
 tooltip_conditional = {tooltip_conditional};
 
 style_data_conditional = {1};
 style_data_conditional{1} = struct(...
-    'if', struct('filter_query','{Provider Name} contains "HOSPITAL"'),...
+    'if', struct('filter_query','{ProviderName} contains "HOSPITAL"'),...
     'backgroundColor','#0074D9',...
     'color','white',...
     'textDecoration','underline',...
     'textDecorationStyle','dotted');
 style_data_conditional = {style_data_conditional};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'tooltip_conditional', tooltip_conditional,...
     'style_data_conditional', style_data_conditional,...
     'tooltip_delay', 10,... % In ms. If set to 0 tooltip is not shown...
     'tooltip_duration', -1); % Use -1 to prevent the tooltip from disappearing
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

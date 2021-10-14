@@ -1,24 +1,22 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/JgqCd', 'PreserveVariableNames', true);
 
 data = data(:, sort(data.Properties.VariableNames));
 
 PAGE_SIZE = 5;
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table-multicol-sorting');
 
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
-
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'page_current', 0,...
     'page_size', PAGE_SIZE,...
     'page_action', 'custom',...
@@ -26,19 +24,14 @@ uit.UserData = struct(...
     'sort_mode', 'multi',...
     'sort_by', {{}});
 
-dash_table = ui2dash(uit, 'table-multicol-sorting'); % Id of datatable is defined here
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
 % Callbacks
-
-table_callback = table_app.callback({argsOut('table-multicol-sorting','data'),...
+args = {...
+    argsOut('table-multicol-sorting','data'),...
     argsIn('table-multicol-sorting','page_current'),...
     argsIn('table-multicol-sorting','page_size'),...
-    argsIn('table-multicol-sorting','sort_by')});
+    argsIn('table-multicol-sorting','sort_by')};
+handle = 'update_table';
+callbackDat = {args, handle};
 
-table_callback(@py.callback.callback);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057, callbackDat);

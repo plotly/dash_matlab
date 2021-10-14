@@ -1,26 +1,19 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/Juf1t', 'PreserveVariableNames', true);
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 % Define struct which stores uitable properties like styling
-uit.UserData = struct();
+dataTable.UserData = struct();
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-
-table_app.layout = addLayout(dash_table);
-
-% run the app
-
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

@@ -1,26 +1,33 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('condForm2.csv', 'PreserveVariableNames', true);
+% Define data table
+Date = {'2015-01-01';'2015-10-24';'2016-05-10';'2017-01-10';'2018-05-10';'2018-08-15'};
+Delivery = {'2015-01-02';'2015-10-24';'2016-05-15';'2017-01-14';'2018-05-10';'2018-08-11'};
+Region = {'Montreal';'Toronto';'New York City';'Miami';'San Francisco';'London'};
+Temperature = [1;-20;3.512;4;10423;-441.2];
+Humidity = [10;20;30;40;50;60];
+Pressure = [2;10924;3912;-10;3591.2;15];
 
-% create Dash app
-table_app = createApp();
+data = table(Date, Delivery, Region, Temperature, Humidity, Pressure);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-[~, lncols] = size(data);
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
-style_data_conditional = {lncols-1};
+lncols = width(data);
 
-for i=2:lncols
+style_data_conditional = {lncols-3};
+
+for i=4:lncols
     col = string(data.Properties.VariableNames(i));
     x = data{:,col};
     value = quantile(x, 0.9);
-    style_data_conditional{i-1} = struct(...
+    style_data_conditional{i-3} = struct(...
         'if', struct('filter_query', sprintf('{%s} >= %d', col, value),...
             'column_id', col),...
         'backgroundColor', '#B10DC9',...
@@ -28,14 +35,9 @@ for i=2:lncols
 end
 style_data_conditional = {style_data_conditional};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'sort_action', 'native',...
     'style_data_conditional', style_data_conditional);
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

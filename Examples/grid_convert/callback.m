@@ -16,6 +16,10 @@ function plotlyFig = callback(xaxis_column_name, yaxis_column_name, ...
     set(gca,'yscale', yaxis_type)
     title(gca, sprintf('TITLE FOR YEAR %s', num2str(year_value)));
     
-    plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false));
-    close(fig)
+    fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);
+    %plotlyFig = jsonencode(fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false));
+    %close(fig)
+    
+    plotlyFig1 = {struct('data', {fig.('data')}, 'layout', fig.('layout'))};
+    plotlyFig = char(jsonencode(plotlyFig1));    
 end

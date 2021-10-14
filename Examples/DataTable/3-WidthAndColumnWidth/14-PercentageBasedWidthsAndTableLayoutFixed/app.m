@@ -1,18 +1,17 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/Jgvhr', 'PreserveVariableNames', false);
+data = data((1:6),(1:5)); % Select first 6 rows and 5 columns
 
-data = data([1:6],:); % Select first 6 rows
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create Dash app
-table_app = createApp();
-
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 css = {1};
 css{1} = struct(...
@@ -20,19 +19,14 @@ css{1} = struct(...
         'rule', 'table-layout: fixed');
 css = {css};
 
-[~, lncols] = size(uit.Data);
+lncols = height(dataTable);
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'css', css,...
     'style_cell', struct(...
         'width', sprintf('%f%', lncols),...
         'textOverflow', 'ellipsis',...
         'overflow', 'hidden'));
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

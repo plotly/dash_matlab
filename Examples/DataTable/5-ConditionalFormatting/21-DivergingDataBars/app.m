@@ -1,16 +1,17 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('condForm4.csv', 'PreserveVariableNames', true);
+% Define data table
+data = readtable('https://git.io/JgTYg', 'PreserveVariableNames', true);
+data = data((1:100),:); % Select first 100 rows
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 n_bins = 100;
 color_above = '#3D9970';
@@ -77,9 +78,9 @@ for j=1:length(columns)
     end  
 end
 
-style_data_conditional = py.list(styles);
+style_data_conditional = {styles};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'sort_action', 'native',...
     'style_data_conditional', style_data_conditional,...
     'style_cell', struct(...
@@ -90,10 +91,5 @@ uit.UserData = struct(...
         'textOverflow','ellipsis'),...
     'page_size', 8);
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

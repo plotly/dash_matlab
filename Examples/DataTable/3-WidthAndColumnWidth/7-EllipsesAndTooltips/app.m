@@ -1,34 +1,33 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv');
+% Read data file
+data = readtable('https://git.io/Jgvhr', 'PreserveVariableNames', false);
+data = data((1:3),:); % Select first 3 rows
 
-data = data([1:3],:); % Select first 3 rows
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create Dash app
-table_app = createApp();
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
-
-[lnrows, lncols] = size(uit.Data);
+[lnrows, lncols] = deal(height(dataTable.Data), width(dataTable.Data));
 tooltip_data = {lnrows};
 for i=1:lnrows
     d = struct();
     for j=1:lncols
-        fld = string(uit.ColumnName(j));
+        fld = string(dataTable.ColumnName(j));
         d.(fld) = struct(...
-            'value', string(uit.Data{i,j}), 'type', 'markdown');
+            'value', string(dataTable.Data{i,j}), 'type', 'markdown');
     end
     tooltip_data{i} = d;
 end
 
 tooltip_data = {tooltip_data};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'style_cell', struct(...
         'overflow', 'hidden',...
         'textOverflow', 'ellipsis',...
@@ -36,10 +35,5 @@ uit.UserData = struct(...
     'tooltip_data', tooltip_data,...
     'tooltip_duration', -1); % Use -1 to prevent the tooltip from disappearing
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

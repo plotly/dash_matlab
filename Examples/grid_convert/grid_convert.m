@@ -66,8 +66,9 @@ args = { argsOut("indicator-graphic", 'figure'), ...
     argsIn('xaxis-type', 'value'), ...
     argsIn('yaxis-type', 'value'), ...
     argsIn('year-slider', 'value') };
-handle = @py.callback.callback;  %callback function handle
+%handle = @py.callback.callback;  %callback function handle
+handle = 'callback';
 callback_dat = {args, handle};
 
 % start dash server
-app=start_dash(uigr, 8057, callback_dat);
+app=startDash(uigr, 8057, callback_dat);

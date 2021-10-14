@@ -1,20 +1,17 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv', 'PreserveVariableNames', true);
-try
-    data = data([1:6],[1:7]); % Select first 6 rows and first 7 columns
-catch
-end
+% Read data file
+data = readtable('https://git.io/Jgvhr', 'PreserveVariableNames', true);
+data = data((1:6),(1:7)); % Select first 6 rows and 7 columns
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 style_data_conditional = {1};
 style_data_conditional{1} = struct(...
@@ -30,7 +27,7 @@ style_header_conditional{1} = struct(...
     'color', 'white');
 style_header_conditional = {style_header_conditional};
 
-[~, lncols] = size(uit.Data);
+lncols = height(dataTable);
 columns = {lncols};
 columns{1} = struct('name', 'City, State', 'id', 'City, State');
 columns{2} = struct('name', 'Classification', 'id', 'Classification');
@@ -41,15 +38,10 @@ columns{6} = struct('name', 'Prov City', 'id', 'Provider City');
 columns{7} = struct('name', 'Prov Id', 'id', 'Provider Id');
 columns = {columns};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'style_data_conditional', style_data_conditional,...
     'style_header_conditional', style_header_conditional);
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

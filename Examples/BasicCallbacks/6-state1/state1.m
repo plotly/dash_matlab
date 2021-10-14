@@ -14,7 +14,8 @@ textRight = uitextarea(uigrid, 'Tag', 'input-2', 'Value', 'Canada');
 textRight.Layout.Row = 1;
 textRight.Layout.Column= [5 8];
 
-labelOutput = uilabel(uigrid, 'Tag', 'number-output');
+labelOutput = uilabel(uigrid, 'Tag', 'number-output',...
+    'FontColor', 'white');
 labelOutput.Layout.Row = [2, 12];
 
 % Define callbacks.

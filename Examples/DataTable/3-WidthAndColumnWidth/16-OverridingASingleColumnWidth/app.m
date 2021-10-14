@@ -1,27 +1,26 @@
-clear all
-close all
 terminate(pyenv);
+clearvars;
 
-% read data file
-data = readtable('https://raw.githubusercontent.com/plotly/datasets/master/medicare_cost.csv', 'PreserveVariableNames', true);
+% Read data file
+data = readtable('https://git.io/Jgvhr', 'PreserveVariableNames', true);
+data = data((1:6),(1:5)); % Select first 6 rows and 5 columns
 
-data = data([1:6],:); % Select first 6 rows
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create Dash app
-table_app = createApp();
-
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'table');
 
 style_cell_conditional = {1};
 style_cell_conditional{1} = struct(...
-    'if', struct('column_id', 'City, State'),...
+    'if', struct('column_id', 'Definition'),...
     'width', '350px');
 
 style_cell_conditional = {style_cell_conditional};
 
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'style_data', struct(...
         'width', '50px',...
         'maxWidth', '50px',...
@@ -30,10 +29,5 @@ uit.UserData = struct(...
     'style_table', struct(...
         'overflowX', 'auto'));
 
-dash_table = ui2dash(uit, 'table');
-
-% add table to Dash app layout
-table_app.layout = addLayout(dash_table);
-
-% run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app
+startDash(uiGrid, 8057);

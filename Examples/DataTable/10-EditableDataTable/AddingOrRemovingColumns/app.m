@@ -9,12 +9,13 @@ Column3 = [10:1:14]';
 Column4 = [15:1:19]';
 data = table(Column1,Column2,Column3,Column4);
 
-% create Dash app
-table_app = createApp();
+% Create ui elements
+uiFigure = uifigure('visible', 'off');
+size = [12, 12];
+uiGrid = uigridlayout(uiFigure, size);
 
-% create ui elements
-uifig = uifigure('visible', 'off');
-uit = uitable(uifig, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+dataTable = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off', 'Tag', 'editing-columns');
 
 % Define custom columns
 columns = {4};
@@ -28,25 +29,20 @@ end
 columns = {columns};
 
 % User data
-uit.UserData = struct(...
+dataTable.UserData = struct(...
     'columns', columns,...
     'editable', true); % Use -1 to prevent the tooltip from disappearing
-
-dash_table = ui2dash(uit, 'editing-columns');
 
 % Input field
 inp = uieditfield(uifig);
 inp.Value = '';
 inp.Placeholder = 'Enter a column name...';
-input_txt = ui2dash(inp, 'editing-columns-name');
+inp.Tag = 'editing-columns-name';
 
 % Button
-btn1 = uibutton(uifig);
-btn1.Text = 'Add Column';
-btn = ui2dash(btn1, 'editing-columns-button');
-
-divEdit = py.dash_html_components.Div({input_txt, btn}, pyargs(...
-    'style', struct('height', 50)));
+btn = uibutton(uifig);
+btn.Text = 'Add Column';
+btn.Tag = 'editing-columns-button';
 
 graph = py.dash_core_components.Graph(pyargs(...
     'id', 'editing-columns-graph'));

@@ -25,7 +25,7 @@ args = {...
     argsOut('my-output', 'children'),...
     argsIn('my-input','value')};
 
-handle = useCallback('update_output_div');
+handle = 'update_output_div';
 
 callbackDat = {args, handle};
 

@@ -227,9 +227,17 @@ function component = ui2dash(ui_widget, id)
         % axes Properties
         case 'axes'
             axs = ui_widget;
+            set(0,'DefaultFigureVisible','off');
             f=figure('visible','off');
             copyobj(axs,f);
-            plotlyfig = plotlyfig2dash(fig2plotly(f, 'offline', true, 'open', false,'Visible',false), axs.Tag);
+            pfig = fig2plotly(f, 'offline', true,...
+                'open', false,'Visible',false);
+            if isstruct(axs.UserData)
+                theme = axs.UserData.theme;
+                addtheme(pfig, theme);
+            end
+            
+            plotlyfig = plotlyfig2dash(pfig, axs.Tag);
             close(f);            
             component = plotlyfig;
         

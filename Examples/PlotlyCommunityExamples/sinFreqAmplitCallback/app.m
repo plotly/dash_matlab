@@ -1,18 +1,14 @@
 terminate(pyenv);
 clearvars;
 
-% create Dash app
-sinApp = createApp();
-
 uiFigure = uifigure('visible', 'off');
 size = [12, 12];
 uiGrid = uigridlayout(uiFigure, size);
 
 % Initial Plot
 ax = axes(uiGrid);
-fig = figure('visible', 'off');
-t = (0:0.02:2*pi);
-plot(ax, t, sin(2*pi*1*t));
+%t = (0:0.02:2*pi);
+%plot(ax, t, sin(2*pi*1*t));
 ax.Tag = 'my-plot';
 
 % Frequency
@@ -23,7 +19,7 @@ frequencySlider.Layout.Row = 2;
 frequencySlider.Layout.Column = [1, 6];
 
 frequencyLabel = uilabel(uiGrid, 'Text', 'Frequency',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 frequencyLabel.Layout.Row = 3;
 frequencyLabel.Layout.Column = 4;
 
@@ -35,7 +31,7 @@ amplitudeSlider.Layout.Row = 2;
 amplitudeSlider.Layout.Column = [7, 12];
 
 amplitudeLabel = uilabel(uiGrid, 'Text', 'Amplitude',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 amplitudeLabel.Layout.Row = 3;
 amplitudeLabel.Layout.Column = 9;
 
@@ -49,4 +45,4 @@ handle = 'updateGraph'; % Callback function
 callbackDat = {args, handle};
 
 % run the app
-startDash(uiGrid, 8057, callbackDat);
+startDash(uiGrid, 8057, callbackDat, 'SOLAR');

@@ -5,7 +5,7 @@ function plotlyFig = updateGraph(frequency, amplitude)
     figure('visible', 'off');
 
     t = (0:0.02:2*pi);
-    plot(t, A*sin(2*pi*F*t), 'LineWidth', 2);
+    plot(t, A*sin(2*pi*F*t), 'LineWidth', 1.5);
     xlabel(gca, 'Time', 'FontSize', 16);
     ylabel(gca, 'Amplitude', 'FontSize', 16);
 
@@ -13,6 +13,7 @@ function plotlyFig = updateGraph(frequency, amplitude)
         'FontSize', 20)
 
     fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);
+    addtheme(fig, 'plotly_dark');
     
     plotlyFig1 = {struct('data', {fig.('data')}, 'layout', fig.('layout'))};
     plotlyFig = char(jsonencode(plotlyFig1));

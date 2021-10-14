@@ -2,13 +2,11 @@ terminate(pyenv);
 clearvars; % Removes all variables from the currently active workspace.
 
 % Create initial graph.
-set(0,'DefaultFigureVisible','off');
 ax = axes('Tag', 'scatter-plot');
-fig = figure('visible', 'off');
 graph = ui2dash(ax);
 
 % Slider title
-sliderText = Html('H2', {'children', 'Petal Width'});
+sliderText = Html('H2', {'Petal Width'});
 
 % Slider.
 slider = uislider();
@@ -26,4 +24,4 @@ handle = 'update_figure';
 callbackDat = {args, handle};
 
 % Run the app.
-slider_app = startDash(components, 8057, callbackDat);
+startDash(components, 8057, callbackDat, 'DARKLY');

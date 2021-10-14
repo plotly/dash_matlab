@@ -1,40 +1,38 @@
 terminate(pyenv);
 clearvars; % Removes all variables from the currently active workspace.
 
-% Create Dash app
-app = createApp();
-
-uiFigure = uifigure('visible', 'off');
-size = [3, 3];
-uiGrid = uigridlayout(uiFigure, size);
-
 % Title
-title = uilabel(uiGrid, 'Text', 'Hello Dash',...
-    'FontSize', 50, 'FontWeight', 'bold', 'FontColor', '#009dff',...
-    'HorizontalAlignment', 'center');
+myTitle = Html('H1', {'children', 'Hello Dash',...
+    'style', struct(...
+        'textAlign', 'center',...
+        'color', '#7FDBFF')});
 
-subtitle = uilabel(uiGrid,...
-    'Text', 'Dash: A web application framework for your data.',...
-    'FontSize', 16, 'FontColor', '#009dff',...
-    'HorizontalAlignment', 'center');
+% Subtitle
+mySubtitle = Html('Div', {...
+    'children', 'Dash: A web application framework for your data.',...
+    'style', struct(...
+        'textAlign', 'center',...
+        'color', '#7FDBFF')});
 
-subtitle.Layout.Row = 2;
-
+% Figure
 fruit = categorical({'Apples', 'Oranges', 'Bananas'});
 amount = [4 2; 1 4; 2 5];
 city = {'SF'; 'Montreal'};
 
-% Figure
-ax = axes(uiGrid);
-ax.Layout.Row = 3;
+ax = axes();
 
 barChart = bar(ax, fruit, amount);
-set(barChart, {'DisplayName'}, city);
 
-xlabel(ax,'Fruit', 'Color', 'red');
-ylabel(ax,'Amount', 'Color', 'red');
+xlabel(ax,'Fruit', 'FontSize', 16);
+ylabel(ax,'Amount', 'FontSize', 16);
+legend(ax, city);
+ax.UserData = struct('theme', 'plotly_dark');
 
-ax.Tag = 'example-graph'; % id for the bar graph
+myPlot = ui2dash(ax, 'my-plot');
+
+myPlotCenter = Html('Center', {'children', myPlot});
+
+components = {myTitle, mySubtitle, myPlotCenter};
 
 % Run the app.
-layoutApp = startDash(uiGrid, 8057);
+startDash(components, 8057, [], 'DARKLY');

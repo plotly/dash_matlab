@@ -16,7 +16,7 @@ function plotlyFig = updateGraph(freq1, freq2, amp1, amp2, noiseButton)
     else
         X = S;
     end
-    plot(1000*t(1:50),X(1:50))
+    plot(1000*t(1:50),X(1:50), 'LineWidth', 1.5)
     title(A1+"&#183;sin(2&#183;&#960;&#183;"+F1+"&#183;t)+"+...
         A2+"&#183;sin(2&#183;&#960;&#183;"+F2+"&#183;t)", 'FontSize', 16)
     xlabel('t (milliseconds)', 'FontSize', 14)
@@ -29,12 +29,13 @@ function plotlyFig = updateGraph(freq1, freq2, amp1, amp2, noiseButton)
     P1 = P2(1:L/2+1);
     P1(2:end-1) = 2*P1(2:end-1);
     f = Fs*(0:(L/2))/L;
-    plot(f,P1) 
+    plot(f,P1, 'LineWidth', 1.5) 
     title('Single-Sided Amplitude Spectrum of X(t)', 'FontSize', 16)
     xlabel('f (Hz)', 'FontSize', 14)
     ylabel('|P1(f)|', 'FontSize', 14)
 
     fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);
+    addtheme(fig, 'plotly_dark');
     
     plotlyFig1 = {struct('data', {fig.('data')}, 'layout', fig.('layout'))};
     plotlyFig = char(jsonencode(plotlyFig1));

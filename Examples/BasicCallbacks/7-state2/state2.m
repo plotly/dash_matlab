@@ -18,7 +18,8 @@ button = uibutton(uigrid, 'Text', 'Submit', 'Tag', 'submit-button-state');
 button.Layout.Row = 1;
 button.Layout.Column= 9;
 
-labelOutput = uilabel(uigrid, 'Tag', 'output-state');
+labelOutput = uilabel(uigrid, 'Tag', 'output-state',...
+    'FontColor', 'white');
 labelOutput.Layout.Row = 2;
 labelOutput.Layout.Column= [1 8];
 

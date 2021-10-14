@@ -132,7 +132,9 @@ function ui_dash = uigrid2dash(chldrn)
                     chilcols{end+1}=ui2dash(ch, ch.Tag);
                  end
              end
-            res{end+1} = py.dash_bootstrap_components.Col(pyargs('children',chilcols, 'style', py.dict(pyargs('padding', num2str(pad)+"px"))));
+            res{end+1} = py.dash_bootstrap_components.Col(pyargs(...
+                'children',chilcols, 'style',...
+                    py.dict(pyargs('padding', num2str(pad)+"px"))));
             chilcols={};
             
         end

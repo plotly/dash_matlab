@@ -1,9 +1,6 @@
 terminate(pyenv);
 clearvars;
 
-% create Dash app
-app = createApp();
-
 uiFigure = uifigure('visible', 'off');
 size = [12, 12];
 uiGrid = uigridlayout(uiFigure, size);
@@ -18,7 +15,7 @@ switchButton.Layout.Row = 1;
 switchButton.Layout.Column = 8;
 
 switchLabel = uilabel(uiGrid, 'Text', 'Touch to add/remove noise',...
-    'FontSize', 14);
+    'FontSize', 14, 'FontColor', 'white');
 switchLabel.Layout.Row = 1;
 switchLabel.Layout.Column = 8;
 
@@ -30,7 +27,7 @@ frequencySlider1.Layout.Row = 3;
 frequencySlider1.Layout.Column = [1, 6];
 
 frequencyLabel1 = uilabel(uiGrid, 'Text', 'Frequency 1',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 frequencyLabel1.Layout.Row = 2;
 frequencyLabel1.Layout.Column = [2, 4];
 
@@ -43,7 +40,7 @@ frequencySlider2.Layout.Row = 3;
 frequencySlider2.Layout.Column = [7, 12];
 
 frequencyLabel1 = uilabel(uiGrid, 'Text', 'Frequency 2',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 frequencyLabel1.Layout.Row = 2;
 frequencyLabel1.Layout.Column = [9, 11];
 
@@ -55,7 +52,7 @@ amplitudeSlider1.Layout.Row = 5;
 amplitudeSlider1.Layout.Column = [1, 6];
 
 amplitudeLabel1 = uilabel(uiGrid, 'Text', 'Amplitude 1',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 amplitudeLabel1.Layout.Row = 4;
 amplitudeLabel1.Layout.Column = [2, 4];
 
@@ -67,7 +64,7 @@ amplitudeSlider2.Layout.Row = 5;
 amplitudeSlider2.Layout.Column = [7, 12];
 
 amplitudeLabel2 = uilabel(uiGrid, 'Text', 'Amplitude 2',...
-    'FontSize', 16, 'FontWeight', 'bold');
+    'FontSize', 16, 'FontWeight', 'bold', 'FontColor', 'white');
 amplitudeLabel2.Layout.Row = 4;
 amplitudeLabel2.Layout.Column = [9, 11];
 
@@ -83,4 +80,4 @@ handle = 'updateGraph'; % Callback function
 callbackDat = {args, handle};
 
 % run the app
-startDash(uiGrid, 8057, callbackDat);
+startDash(uiGrid, 8057, callbackDat, 'SOLAR');

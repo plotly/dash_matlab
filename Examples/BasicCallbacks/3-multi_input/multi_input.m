@@ -5,9 +5,6 @@ clearvars; % Removes all variables from the currently active workspace.
 countryIndicators = readtable('country_indicators.csv');
 allInds = unique(countryIndicators.IndicatorName);
 
-% Create Dash app.
-sliderApp = createApp();
-
 uifig = uifigure('visible', 'off');
 size = [12, 12];
 uigrid = uigridlayout(uifig, size);
@@ -34,14 +31,14 @@ ax = axes(uigrid);
 ax.Layout.Row = [3, 11];
 ax.Layout.Column = [2, 12];
 
-fig = figure('visible', 'off');
+%fig = figure('visible', 'off');
 tics = unique(countryIndicators.Year);
-subtab = countryIndicators(countryIndicators.Year == tics(1), :);
+%subtab = countryIndicators(countryIndicators.Year == tics(1), :);
 
-subtabX = subtab(cellfun(@(x) isequal(x,allInds{1}), subtab.IndicatorName), : );
-subtabY = subtab(cellfun(@(x) isequal(x,allInds{2}), subtab.IndicatorName), : );
-scatter(ax, subtabX.Value,  subtabY.Value, categorical(subtabY.Value), 'filled',...
-    'MarkerEdgeColor', 'b', 'MarkerFaceColor', [0 0.5 0.5]);
+%subtabX = subtab(cellfun(@(x) isequal(x,allInds{1}), subtab.IndicatorName), : );
+%subtabY = subtab(cellfun(@(x) isequal(x,allInds{2}), subtab.IndicatorName), : );
+%scatter(ax, subtabX.Value,  subtabY.Value, categorical(subtabY.Value), 'filled',...
+%    'MarkerEdgeColor', 'b', 'MarkerFaceColor', [0 0.5 0.5]);
 ax.Tag = 'indicator-graphic';
 
 % Slider

@@ -1,4 +1,15 @@
 function bioComponent = dashBio(method, properties)
+% dash_bio components
+%
+%  dashBio(method, properties)
+%
+%  method: string.
+%  properties: cell array containing name-value pairs with properties.
+%
+%  For example, a dash_bio.NglMoleculeViewer(id='myId') would be
+%  done like:
+%
+%  dashBio('NglMoleculeViewer', {'id', 'myId'})
     try
         bioComponent = py.dash_bio.(method)(pyargs(properties{:}));
     catch

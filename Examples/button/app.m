@@ -1,38 +1,30 @@
 terminate(pyenv);
+clearvars; % Removes all variables from the currently active workspace.
 
-% create Dash app
-button_app = createApp();
+btn1 = uibutton('Text', 'Button 1');
+dashButton1 = ui2dash(btn1, 'btn_1');
 
-% add buttons to Dash app layout
-uifig = uifigure('visible', 'off');
+btn2 = uibutton('Text', 'Button 2');
+dashButton2 = ui2dash(btn2, 'btn_2');
 
-btn1 = uibutton(uifig);
-btn1.Text = 'Button 1';
-dash_button1 = ui2dash(btn1, 'btn_nclicks_1');
+btn3 = uibutton('Text', 'Button 3');
+dashButton3 = ui2dash(btn3, 'btn_3');
 
-btn2 = uibutton(uifig);
-btn2.Text = 'Button 2';
-dash_button2 = ui2dash(btn2, 'btn_nclicks_2');
+dashText = Html('Div', {'id','container'});
 
-btn3 = uibutton(uifig);
-btn3.Text = 'Button 3';
-dash_button3 = ui2dash(btn3, 'btn_nclicks_3');
+% Add buttons and text below to Dash app layout
+components = {dashButton1, dashButton2, dashButton3, dashText};
 
-dash_txt = py.dash_html_components.Div('id','container-button-timestamp');
+% Define the callbacks
+args = {...
+    argsOut('container', 'children'),...
+    argsIn('btn_1','n_clicks'),...
+    argsIn('btn_2','n_clicks'),...
+    argsIn('btn_3','n_clicks')};
 
-% add buttons and text below to Dash app layout
-button_app.layout = addLayout(py.dash_html_components.Div({...
-    dash_button1, dash_button2, dash_button3, dash_txt}));
+handle = 'displayCallback';
 
-% define the callbacks
+callbackDat = {args, handle};
 
-button_callback = button_app.callback( {argsOut('container-button-timestamp', 'children'),...
-    argsIn('btn_nclicks_1','n_clicks'),...
-    argsIn('btn_nclicks_2','n_clicks'),...
-    argsIn('btn_nclicks_3','n_clicks')}); 
-
-button_callback(@py.callback.callback);
-
-% run the app
-
-button_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app.
+startDash(components, 8057, callbackDat, 'DARKLY');

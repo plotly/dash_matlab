@@ -5,11 +5,11 @@ from dash.exceptions import PreventUpdate
 future = matlab.engine.start_matlab(background=True)
 eng = future.result()
 
-def updateGraph(*args):
+def displayCallback(*args):
     if args[0] is None:
-        outputs = json.loads(eng.updateGraph("NaN"))
+        outputs = json.loads(eng.displayCallback("NaN"))
     else:
-        outputs = json.loads(eng.updateGraph(*args))
+        outputs = json.loads(eng.displayCallback(*args))
     if outputs == 'PreventUpdate':
         raise PreventUpdate
     return outputs

@@ -11,7 +11,8 @@ uiGrid = uigridlayout(uiFigure);
 title = uilabel(uiGrid, 'Text', 'US Agriculture Exports (2011)',...
     'FontSize', 24, 'FontWeight', 'bold');
 
-table = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames, 'Data', data, 'visible', 'off');
+table = uitable(uiGrid, 'ColumnName', data.Properties.VariableNames,...
+    'Data', data, 'visible', 'off');
 table.UserData = struct('page_size', 10);
 table.Tag = 'my-table';
 

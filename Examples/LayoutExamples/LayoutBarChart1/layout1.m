@@ -2,15 +2,11 @@ terminate(pyenv);
 clearvars; % Removes all variables from the currently active workspace.
 
 % Title
-title = uilabel('Text', 'Hello Dash',...
-    'FontSize', 50, 'FontWeight', 'bold', 'FontColor', 'white');
-myTitle = ui2dash(title, 'title');
+myTitle = Html('H1', {'children', 'Hello Dash'});
 
 % Subtitle
-subtitle = uilabel(...
-    'Text', 'Dash: A web application framework for your data.',...
-    'FontSize', 16, 'FontColor', 'white');
-mySubtitle = ui2dash(subtitle, 'subtitle');
+mySubtitle = Html('Div', {...
+    'children', 'Dash: A web application framework for your data.'});
 
 % Figure
 fruit = categorical({'Apples', 'Oranges', 'Bananas'});

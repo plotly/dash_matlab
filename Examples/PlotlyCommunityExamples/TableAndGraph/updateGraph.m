@@ -28,7 +28,6 @@ function plotlyFig = updateGraph(tableData, dropdownValue)
     end
     xlabel(gca, 'x', 'FontSize', 16);
     ylabel(gca, 'y', 'FontSize', 16);
-
     title(strcat(dropdownValue, ' Plot'), 'FontSize', 20);
 
     fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);

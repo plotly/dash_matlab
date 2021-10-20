@@ -18,9 +18,9 @@ function dccComponent = Dcc(method, properties)
         end
         dccComponent = py.dash_core_components.Graph(pyargs('figure', plotlyfig, 'id', properties{2}));
     else
-        a = char(jsonencode(properties));
-        b = py.json.loads(a);
-        c = cell(b);    
-        dccComponent = py.dash_core_components.(method)(pyargs(c{:}));
+        %a = char(jsonencode(properties));
+        %b = py.json.loads(a);
+        %c = cell(b);    
+        dccComponent = py.dash_core_components.(method)(pyargs(properties{:}));
     end
 end

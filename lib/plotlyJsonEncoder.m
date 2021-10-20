@@ -1,6 +1,6 @@
 function encodedObject = plotlyJsonEncoder(myObject)
-    plotlyMod = py.importlib.import_module('plotly');
+    plotlyMod = py.importlib.import_module('plotly.utils');
     encodedObject = char(py.json.dumps({myObject}, pyargs(...
-        'cls', plotlyMod.utils.PlotlyJSONEncoder)));
+        'cls', plotlyMod.PlotlyJSONEncoder)));
 end
 

@@ -1,0 +1,13 @@
+terminate(pyenv);
+clearvars;
+
+dashDropdown = Dcc('Dropdown', {...
+    'options', {...
+        struct('label', 'New York City', 'value', 'NYC', 'disabled', true),...
+        struct('label', 'Montréal', 'value', 'MTL'),...
+        struct('label', 'San Francisco', 'value', 'SF', 'disabled', true)}});
+
+components = {dashDropdown};
+
+% Start app
+startDash(components, 8057, [], 'SOLAR');

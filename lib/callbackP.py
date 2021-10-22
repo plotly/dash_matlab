@@ -5,11 +5,11 @@ from dash.exceptions import PreventUpdate
 future = matlab.engine.start_matlab(background=True)
 eng = future.result()
 
-def render_content(*args):
+def custom_copy(*args):
     if args[0] is None:
-        outputs = json.loads(eng.render_content("NaN"))
+        outputs = json.loads(eng.custom_copy("NaN"))
     else:
-        outputs = json.loads(eng.render_content(*args))
+        outputs = json.loads(eng.custom_copy(*args))
     if outputs == 'PreventUpdate':
         raise PreventUpdate
     return outputs

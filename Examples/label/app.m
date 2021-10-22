@@ -1,20 +1,16 @@
 terminate(pyenv);
+clearvars;
 
-% create Dash app
-label_app = createApp();
+% Add boxes to Dash app layout
+uiFig = uifigure('visible', 'off');
 
-% add boxes to Dash app layout
-uifig = uifigure('visible', 'off');
-
-label_1 = uilabel(uifig);
-label_1.Text = 'This is Label 1';
-dash_label1 = ui2dash(label_1, 'label_1');
+myLabel = uilabel(uiFig);
+myLabel.Text = 'This is a Label';
+dashLabel = ui2dash(myLabel, 'label_1');
 
 
 % add label to Dash app layout
-label_app.layout = addLayout(py.dash_html_components.Div(...
-    dash_label1));
+components = {dashLabel};
 
-% run the app
-
-label_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Start app
+startDash(components, 8057, [], 'CERULEAN');

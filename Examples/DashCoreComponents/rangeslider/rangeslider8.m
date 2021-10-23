@@ -1,0 +1,13 @@
+terminate(pyenv);
+clearvars;
+
+dashRangeslider = Dcc('RangeSlider', {...
+    'min',0,'max',30,...
+    'value', {10, 15},...
+    'tooltip', struct(...
+        'placement', 'bottom', 'always_visible', true)});
+
+components = {dashRangeslider};
+
+% Start app
+startDash(components, 8057, [], 'SOLAR');

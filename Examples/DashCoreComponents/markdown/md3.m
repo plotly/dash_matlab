@@ -1,0 +1,16 @@
+terminate(pyenv);
+clearvars;
+
+code = sprintf(['',...
+    '* Item 1\n',...
+    '* Item 2\n',...
+    '* Item 2a\n',...
+    '* Item 2b',...
+    '']);
+
+dashMd = Dcc('Markdown', {'children', code});
+
+components = {dashMd};
+
+% Start app
+startDash(components, 8057, [], 'SOLAR');

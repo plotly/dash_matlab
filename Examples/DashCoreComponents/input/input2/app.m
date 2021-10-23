@@ -1,0 +1,33 @@
+terminate(pyenv);
+clearvars;
+
+dashI = Html('I', {'Try typing in input 1 & 2, and observe how debounce is impacting the callbacks. Press Enter and/or Tab key in Input 2 to cancel the delay'});
+
+dashBr = Html('Br');
+
+dashInput1 = Dcc('Input', {...
+    'id', 'input1',...
+    'type', 'text',...
+    'placeholder', '',...
+    'style', struct('marginRight', '10px')});
+
+dashInput2 = Dcc('Input', {...
+    'id', 'input2',...
+    'type', 'text',...
+    'placeholder', '',...
+    'debounce', true});
+
+dashDiv = Html('Div', {'id', 'output'});
+
+components = {dashI, dashBr, dashInput1, dashInput2, dashDiv};
+
+% Callbacks
+
+args = {argsOut('output', 'children'),...
+    argsIn('input1', 'value'),...
+    argsIn('input2', 'value')};
+handle = 'update_output';
+callbackDat = {args, handle};
+
+% Start app
+startDash(components, 8057, callbackDat, 'SOLAR');

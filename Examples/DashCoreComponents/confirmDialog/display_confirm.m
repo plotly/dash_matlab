@@ -6,4 +6,3 @@ function out = display_confirm(value)
     end
     out = jsonencode({out});
 end
-

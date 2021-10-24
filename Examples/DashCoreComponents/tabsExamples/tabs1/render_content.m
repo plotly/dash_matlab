@@ -16,4 +16,3 @@ function outDiv = render_content(tab)
     
     outDiv = plotlyJsonEncoder(myDiv);
 end
-

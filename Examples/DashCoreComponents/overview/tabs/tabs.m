@@ -8,9 +8,7 @@ myTabs = Dcc('Tabs', {...
     'id', 'tabs',...
     'value', 'tab-1'});
         
-
 myDiv = Html('Div', {'id', 'tabs-content'});
-
 
 components = {myTabs, myDiv};
 

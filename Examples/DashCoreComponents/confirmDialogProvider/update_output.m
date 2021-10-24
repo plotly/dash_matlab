@@ -7,4 +7,3 @@ function outTxt = update_output(submit_n_clicks)
     end
     outTxt = jsonencode({outTxt});
 end
-

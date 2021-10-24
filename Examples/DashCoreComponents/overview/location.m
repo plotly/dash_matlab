@@ -1,8 +1,7 @@
 terminate(pyenv);
 clearvars;
 
-dashLocation = Dcc('Location',{...
-    'id', 'url', 'refresh', false});
+dashLocation = Dcc('Location',{'id', 'url', 'refresh', false});
 
 components = {dashLocation};
 

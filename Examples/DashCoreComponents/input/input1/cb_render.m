@@ -8,4 +8,3 @@ function out = cb_render(varargin)
     out = strjoin(string(out), ' | ');
     out = jsonencode({out});
 end
-

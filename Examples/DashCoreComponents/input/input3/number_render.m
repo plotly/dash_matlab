@@ -3,4 +3,3 @@ function out = number_render(fval, tval, rangeval)
         string(fval), string(tval), string(rangeval));
     out = jsonencode({out});
 end
-

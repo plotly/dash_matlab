@@ -7,4 +7,3 @@ function outDiv = render_content(tab)
     outDiv = Html('Div', {H3});
     outDiv = plotlyJsonEncoder(outDiv);
 end
-

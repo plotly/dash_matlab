@@ -1,5 +1,6 @@
 %convert matlab ui grid to dash
 function ui_dash = uigrid2dash(chldrn)
+    mod=py.importlib.import_module('dash_bootstrap_components');
     chln=length(chldrn);
     pad = 5; %padding in px
     ver=[1 1]; 
@@ -116,9 +117,9 @@ function ui_dash = uigrid2dash(chldrn)
             if ~bordln
                 continue
             elseif bordln==1
-                res{end+1} = py.dash_bootstrap_components.Row(py.dash_bootstrap_components.Col(ui2dash(bordchl, bordchl.Tag)));
+                res{end+1} = mod.wrapped.Row(mod.wrapped.Col(ui2dash(bordchl, bordchl.Tag)));
             else
-                res{end+1} = py.dash_bootstrap_components.Row(uigrid2dash(bordchl));
+                res{end+1} = mod.wrapped.Row(uigrid2dash(bordchl));
             end
             bordchl=gobjects(0);
         end
@@ -132,7 +133,7 @@ function ui_dash = uigrid2dash(chldrn)
                     chilcols{end+1}=ui2dash(ch, ch.Tag);
                  end
              end
-            res{end+1} = py.dash_bootstrap_components.Col(pyargs(...
+            res{end+1} = mod.wrapped.Col(pyargs(...
                 'children',chilcols, 'style',...
                     py.dict(pyargs('padding', num2str(pad)+"px"))));
             chilcols={};

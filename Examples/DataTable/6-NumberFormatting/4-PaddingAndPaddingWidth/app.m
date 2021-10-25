@@ -2,9 +2,6 @@ clear all
 close all
 terminate(pyenv);
 
-% create Dash app
-table_app = createApp();
-
 a = [123;123;1234;12345;123456789];
 
 data = table(a);
@@ -32,10 +29,10 @@ columns = {columns};
 uit.UserData = struct(...
     'columns', columns);
 
-dash_table = ui2dash(uit, 'table');
+dashTable = ui2dash(uit, 'table');
 
 % add table to Dash app layout
-table_app.layout = addLayout(dash_table);
+components = {dashTable};
 
 % run the app
-table_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+startDash(components, 8057, [], 'SOLAR');

@@ -22,4 +22,4 @@ handle = 'update_figure';
 callbackDat = {args, handle};
 
 % Run the app.
-slider_app = startDash(components, 8057, callbackDat);
+slider_app = startDash(components, 8057, callbackDat, 'SOLAR');

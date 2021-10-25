@@ -31,4 +31,4 @@ handle = 'update_output_div';
 callbackDat = {args, handle};
 
 % Run the app.
-app = startDash(uigrid, 8057, callbackDat);
+app = startDash(uigrid, 8057, callbackDat, 'DARKLY');

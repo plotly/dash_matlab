@@ -86,7 +86,7 @@ function app = startDash(uigrid, port, callbacks_dat, theme)
              end
         end    
         %add layout
-        app.layout = addLayout(py.dash_html_components.Div(...
+        app.layout = addLayout(py.dash.html.Div(...
             py.dash_bootstrap_components.Container(ui_dash)));
 
         %start server

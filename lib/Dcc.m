@@ -16,11 +16,11 @@ function dccComponent = Dcc(method, properties)
         catch
             plotlyfig = py.dict(pyargs('data',py.list(),'layout',py.dict()));
         end
-        dccComponent = py.dash_core_components.Graph(pyargs('figure', plotlyfig, 'id', properties{2}));
+        dccComponent = py.dash.dcc.Graph(pyargs('figure', plotlyfig, 'id', properties{2}));
     else
         %a = char(jsonencode(properties));
         %b = py.json.loads(a);
         %c = cell(b);    
-        dccComponent = py.dash_core_components.(method)(pyargs(properties{:}));
+        dccComponent = py.dash.dcc.(method)(pyargs(properties{:}));
     end
 end

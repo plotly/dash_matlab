@@ -14,9 +14,9 @@ function htmlComponent = Html(varargin)
             properties = ['children', properties];
         end
 
-        htmlComponent = py.dash_html_components.(method)(...
+        htmlComponent = py.dash.html.(method)(...
             pyargs(properties{:}));
     else
-        htmlComponent = py.dash_html_components.(method)();
+        htmlComponent = py.dash.html.(method)();
     end
 end

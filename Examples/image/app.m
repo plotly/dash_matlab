@@ -1,17 +1,14 @@
 terminate(pyenv);
+clearvars; % Removes all variables from the currently active workspace.
 
-% create Dash app
-image_app = createApp();
+uiFig = uifigure('visible', 'off');
+uiGrid = uigridlayout(uiFig);
 
-uifig = uifigure('visible', 'off');
-
-img_1 = uiimage(uifig);
+img_1 = uiimage(uiGrid);
 img_1.ImageSource = 'assets/plotly-logo.png';
-dash_img1 = ui2dash(img_1, 'img_1');
+dashImg = ui2dash(img_1, 'img_1');
 
-% add image to Dash app layout
-image_app.layout = addLayout(py.dash_html_components.Div(...
-    dash_img1));
+components = {dashImg};
 
-% run the app
-image_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app.
+startDash(uiGrid, 8057, [], 'DARKLY');

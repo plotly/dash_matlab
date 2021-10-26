@@ -1,21 +1,16 @@
 terminate(pyenv);
-
-% create Dash app
-link_app = createApp();
+clearvars; % Removes all variables from the currently active workspace.
 
 % add boxes to Dash app layout
-uifig = uifigure('visible', 'off');
+uiFig = uifigure('visible', 'off');
+uiGrid = uigridlayout(uiFig);
 
-link_1 = uihyperlink(uifig);
+link_1 = uihyperlink(uiGrid);
 link_1.URL = 'https://plotly.com/';
 link_1.Text = 'Welcome to Plotly!';
-dash_link1 = ui2dash(link_1, 'link_1');
+dashLink = ui2dash(link_1, 'link_1');
 
+components = {dashLink};
 
-% add label to Dash app layout
-link_app.layout = addLayout(py.dash_html_components.Div(...
-    dash_link1));
-
-% run the app
-
-link_app.run_server(pyargs('debug',true,'use_reloader',false,'port','8057'))
+% Run the app.
+startDash(uiGrid, 8057, [], 'DARKLY');

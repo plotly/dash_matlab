@@ -46,6 +46,8 @@ Don't use `plotlysetup_online()` with Dash for MATLAB®.
 
 ## Deploying MATLAB® Dash apps on [AWS](https://aws.amazon.com/console/):
 
+https://github.com/mathworks-ref-arch/matlab-on-aws-win
+
 Please install Matlab and other requirements from this `readme` on remote `EC2` machine and change folder to [aws_multi_input](https://github.com/plotly/dash_matlab/tree/main/Examples/aws_multi_input) example,  
 run script with these commands:  
 

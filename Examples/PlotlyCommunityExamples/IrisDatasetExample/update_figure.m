@@ -18,7 +18,7 @@ function plotlyFig = update_figure(slider_range)
     ylabel(gca, 'sepal length');
 
     fig = fig2plotly(gcf, 'offline', true, 'open', false, 'Visible', false);
-    addtheme(fig, 'plotly_dark');
+    %addtheme(fig, 'plotly_dark');
     
     plotlyFig1 = {struct('data', {fig.('data')}, 'layout', fig.('layout'))};
     plotlyFig = char(jsonencode(plotlyFig1));

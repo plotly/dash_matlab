@@ -6,11 +6,10 @@ uiGrid = uigridlayout(uiFigure);
 
 % Title
 title = uilabel(uiGrid, 'Text', 'Hello Dash!');
-%title.FontSize = 24;
-%title.FontWeight = 'bold';
-%title.FontColor = 'red';
-%title.HorizontalAlignment = 'center';
+title.FontSize = 24;
+title.FontWeight = 'bold';
+title.FontColor = 'red';
+title.HorizontalAlignment = 'center';
 
 % Run the app.
-%startDash(uiGrid, 8057, [], 'DARKLY');
-startDash(uiGrid, 8057);
+startDash(uiGrid, 8057, [], 'DARKLY');

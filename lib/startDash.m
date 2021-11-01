@@ -18,6 +18,12 @@ function app = startDash(uigrid, port, callbacks_dat, theme)
 %
 % Visit this link for more details:
 % https://dash-bootstrap-components.opensource.faculty.ai/docs/themes/
+
+% Show info at the start
+fprintf('* Welcome to Dash for MATLAB\n');
+fprintf('* Dash is running on http://127.0.0.1:%s/\n', string(port))
+fprintf('* Press Ctrl+C to stop the server\n\n')
+
     % If theme is not set, make CERULEAN the default
     if ~exist('theme', 'var')
         theme = 'CERULEAN';

@@ -15,16 +15,12 @@ can be useful:
 ### I'm getting an error Cannot find function `py.callback.callback`.
 Would pop up on every python `callback.py` error like wrong indentation, argument mismatch etc. Matlab doesn't pass most exceptions to user while running `python` code. Please execute `callback` function from `callback.py` with local `python` and placeholder arguments to check for exceptions explicitly.
 
-### How to stop the server in Windows?
+### How to run/stop the server in Windows?
+On Matlab, run the following on the command window, where `helloWorld` is the name of the Matlab script you want to run (the path to MATLAB.exe may be different for your PC):
 
-Open a Windows PowerShell and enter the following:
-`netstat -ano | findstr :8057`
+`!"C:\Program Files\Polyspace\R2021a\bin\win64\MATLAB.exe" -batch "helloWorld"`
 
-Where `8057` is the port number currently running. Then find the PID (Process Identifier).
-For example, your PID could be 10476. Keep in mind that this number can be different every time you start a new server (even if it is the same port number).
-To stop the server, run:
-
-`taskkill /PID 10476 /F`
+The Dash app will be running on the specified port, and you can stop it with **Ctrl+C**.
 
 ### Stop server on linux:
 `pkill -9 MATLABPyHost`

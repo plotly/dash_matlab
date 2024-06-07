@@ -2,6 +2,12 @@
 
 Dash for MATLAB® provides an interface to use the Dash library and create analytic web applications fully in MATLAB®. Create and share MATLAB® analysis with business stakeholders through Dash, the leading low-code platform for data science web apps!
 
+<div align="center">
+  <a href="https://dash.plotly.com/project-maintenance">
+    <img src="https://dash.plotly.com/assets/images/maintained-by-community.png" width="400px" alt="Maintained by the Plotly Community">
+  </a>
+</div>
+
 ## [Examples](https://github.com/plotly/dash_matlab/tree/main/Examples)
 
 This folder contains examples of usage:
